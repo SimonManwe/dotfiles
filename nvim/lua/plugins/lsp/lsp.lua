@@ -58,7 +58,7 @@ return {
 			virtual_text = {
 				spacing = 4,
 				prefix = "●",
-			}
+			},
 		})
 
 		-- Enable LSP servers with capabilities (Neovim 0.11+ style)
@@ -76,11 +76,7 @@ return {
 		})
 
 		vim.lsp.enable("html", {
-			capabilities = capabilities
-		})
-
-		vim.lsp.enable("intelephense", {
-			capabilities = capabilities
+			capabilities = capabilities,
 		})
 
 		vim.lsp.enable("rust_analyzer", {
@@ -111,6 +107,55 @@ return {
 					telemetry = {
 						enable = false,
 					},
+				},
+			},
+		})
+
+		vim.lsp.enable("intelephense", {
+			capabilities = capabilities,
+			settings = {
+				intelephense = {
+					stubs = {
+						"apache",
+						"bcmath",
+						"Core",
+						"curl",
+						"date",
+						"dom",
+						"fileinfo",
+						"filter",
+						"json",
+						"mbstring",
+						"mysqli",
+						"PDO",
+						"pdo_mysql",
+						"redis",
+						"Reflection",
+						"session",
+						"SimpleXML",
+						"SPL",
+						"standard",
+						"xml",
+						"xmlreader",
+						"xmlwriter",
+						"yaml",
+					},
+					files = {
+						maxSize = 5000000,
+						associations = { "*.php" },
+					},
+					environment = {
+						-- Include Spryker generated files
+						includePaths = {
+							"vendor/spryker",
+							"src/Generated",
+						},
+					},
+					diagnostics = {
+						enable = true,
+					},
+					-- Important: Clear cache on startup
+					clearCache = true,
 				},
 			},
 		})

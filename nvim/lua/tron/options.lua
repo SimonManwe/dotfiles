@@ -7,4 +7,4 @@ vim.opt.shiftwidth = 4
 vim.o.autoread = true
 vim.o.autowrite = true
 vim.o.autowriteall = true
-vim.opt.updatetime = 250  -- Make this faster (default is 4000)
+vim.opt.updatetime = 250 -- Make this faster (default is 4000)

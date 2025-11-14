@@ -17,8 +17,43 @@ return {
 				php = { "php_cs_fixer" },
 				rust = { "rustfmt" },
 			},
-			format_after_save = {
-				lsp_fallback = true,
+
+			format_on_save = function(bufnr)
+				-- Disable for large files
+				local buf_size = vim.api.nvim_buf_get_offset(bufnr, vim.api.nvim_buf_line_count(bufnr))
+				if buf_size > 1024 * 1024 then -- 1MB
+					return
+				end
+
+				-- Disable for specific file types if needed
+				local bufname = vim.api.nvim_buf_get_name(bufnr)
+				if bufname:match("/node_modules/") or bufname:match("/vendor/") then
+					return
+				end
+
+				return {
+					timeout_ms = 3000,
+					lsp_format = "fallback",
+				}
+			end,
+
+			formatters = {
+				php_cs_fixer = {
+					command = "php-cs-fixer",
+					args = {
+						"fix",
+						"$FILENAME",
+						"--rules=@PSR12", -- Spryker uses PSR-12
+						"--allow-risky=yes",
+					},
+					stdin = false,
+				},
+				prettier = {
+					prepend_args = {
+						"--prose-wrap=always",
+						"--print-width=120",
+					},
+				},
 			},
 		})
 
