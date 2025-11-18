@@ -11,6 +11,7 @@ return {
 			"L3MON4D3/LuaSnip",
 			"saadparwaiz1/cmp_luasnip",
 			"rafamadriz/friendly-snippets",
+			"zbirenbaum/copilot-cmp",
 		},
 		config = function()
 			local cmp = require("cmp")
@@ -60,9 +61,10 @@ return {
 					end, { "i", "s" }),
 				}),
 
-				sources = cmp.config.sources({
-					{ name = "nvim_lsp", priority = 1000 },
-					{ name = "luasnip", priority = 750 },
+			sources = cmp.config.sources({
+				{ name = "copilot", priority = 1100 },
+				{ name = "nvim_lsp", priority = 1000 },
+				{ name = "luasnip", priority = 750 },
 					{
 						name = "buffer",
 						priority = 500,
@@ -93,6 +95,7 @@ return {
 					fields = { "abbr", "kind", "menu" },
 					format = function(entry, item)
 						local menu_icon = {
+							copilot = "[Copilot]",
 							nvim_lsp = "[LSP]",
 							luasnip = "[Snip]",
 							buffer = "[Buf]",
