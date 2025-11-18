@@ -1,4 +1,5 @@
 -- stylua: ignore file
+
 return {
 	-- Core DAP plugin
 	{
@@ -30,21 +31,41 @@ return {
 				layouts = {
 					{
 						elements = {
-							{ id = "scopes",      size = 0.25 },
-							{ id = "breakpoints", size = 0.25 },
-							{ id = "stacks",      size = 0.25 },
-							{ id = "watches",     size = 0.25 },
+							"scopes",
+							"breakpoints",
+							"stacks",
+							"watches",
 						},
-						size = 40,
+						size = 50,
 						position = "left",
 					},
 					{
 						elements = {
-							{ id = "repl",    size = 0.5 },
-							{ id = "console", size = 0.5 },
+							"repl",
+							"console",
 						},
 						size = 10,
 						position = "bottom",
+					},
+				},
+				controls = {
+					enabled = true,
+					element = "repl",
+					icons = {
+						pause = "⏸",
+						play = "▶",
+						step_into = "⏎",
+						step_over = "⏭",
+						step_out = "⏮",
+						step_back = "b",
+						run_last = "▶▶",
+						terminate = "⏹",
+					},
+				},
+				floating = {
+					border = "rounded",
+					mappings = {
+						close = { "q", "<Esc>" },
 					},
 				},
 			})
@@ -110,7 +131,7 @@ return {
 			-- Debugging keybindings
 			vim.keymap.set("n", "<F5>", dap.continue, { desc = "Debug: Start/Continue" })
 			vim.keymap.set("n", "<F10>", dap.step_over, { desc = "Debug: Step Over" })
-			vim.keymap.set("n", "<F11>", dap.step_into, { desc = "Debug: Step Into" })
+			vim.keymap.set("n", "<F6>", dap.step_into, { desc = "Debug: Step Into" })
 			vim.keymap.set("n", "<F12>", dap.step_out, { desc = "Debug: Step Out" })
 			vim.keymap.set("n", "<leader>bp", dap.toggle_breakpoint, { desc = "Debug: Toggle Breakpoint" })
 			vim.keymap.set("n", "<leader>Bp", function()
@@ -119,6 +140,27 @@ return {
 			vim.keymap.set("n", "<leader>dr", dap.repl.open, { desc = "Debug: Open REPL" })
 			vim.keymap.set("n", "<leader>dl", dap.run_last, { desc = "Debug: Run Last" })
 			vim.keymap.set("n", "<leader>dt", dapui.toggle, { desc = "Debug: Toggle UI" })
+
+			-- Stack trace navigation
+			vim.keymap.set("n", "<leader>du", dap.up, { desc = "Debug: Stack Up" })
+			vim.keymap.set("n", "<leader>dd", dap.down, { desc = "Debug: Stack Down" })
+			vim.keymap.set("n", "<leader>df", function()
+				require("dapui").float_element("stacks", { width = 100, height = 30, enter = true })
+			end, { desc = "Debug: Floating Stacktrace" })
+			vim.keymap.set("n", "<leader>ds", function()
+				require("dapui").toggle({ layout = 1 })
+			end, { desc = "Debug: Toggle Stack Panel" })
+
+			-- Hover to see variable values
+			vim.keymap.set("n", "<leader>dh", function()
+				require("dap.ui.widgets").hover()
+			end, { desc = "Debug: Hover Variables" })
+
+			-- Frames sidebar widget (alternative stacktrace view)
+			vim.keymap.set("n", "<leader>dF", function()
+				local widgets = require("dap.ui.widgets")
+				widgets.sidebar(widgets.frames):open()
+			end, { desc = "Debug: Open Frames Sidebar" })
 
 			-- Breakpoint signs/icons
 			vim.fn.sign_define("DapBreakpoint", { text = "🔴", texthl = "", linehl = "", numhl = "" })

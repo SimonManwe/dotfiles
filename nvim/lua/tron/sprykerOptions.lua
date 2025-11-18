@@ -149,57 +149,5 @@ vim.api.nvim_create_autocmd("FileType", {
 			vim.api.nvim_win_set_cursor(0, { line, 4 }) -- Place cursor after " * "
 			vim.cmd("startinsert!")
 		end, { buffer = bufnr, desc = "PHP: Insert DocBlock above" })
-
-		-- Extract method name and create docblock template
-		vim.keymap.set("n", "<leader>pm", function()
-			-- Get current line
-			local line_num = vim.api.nvim_win_get_cursor(0)[1]
-			local line = vim.api.nvim_buf_get_lines(bufnr, line_num - 1, line_num, false)[1]
-
-			-- Parse method signature
-			local func_match = line:match("function%s+(%w+)%s*%((.-)%)")
-			if not func_match then
-				vim.notify("Not on a function definition", vim.log.levels.WARN)
-				return
-			end
-
-			-- Extract parameters
-			local params_str = line:match("%((.-)%)")
-			local params = {}
-			if params_str and params_str ~= "" then
-				for param in params_str:gmatch("[^,]+") do
-					local type_hint = param:match("(%w+)%s+%$")
-					local var_name = param:match("%$(%w+)")
-					if type_hint and var_name then
-						table.insert(params, { type = type_hint, name = var_name })
-					end
-				end
-			end
-
-			-- Extract return type
-			local return_type = line:match("):%s*([%w\\]+)")
-
-			-- Build docblock
-			local docblock = { "/**", " * Method description" }
-
-			if #params > 0 then
-				table.insert(docblock, " *")
-				for _, param in ipairs(params) do
-					table.insert(docblock, " * @param " .. param.type .. " $" .. param.name)
-				end
-			end
-
-			if return_type then
-				table.insert(docblock, " *")
-				table.insert(docblock, " * @return " .. return_type)
-			end
-
-			table.insert(docblock, " */")
-
-			-- Insert above current line
-			vim.api.nvim_buf_set_lines(bufnr, line_num - 1, line_num - 1, false, docblock)
-
-			vim.notify("DocBlock generated", vim.log.levels.INFO)
-		end, { buffer = bufnr, desc = "PHP: Generate method DocBlock from signature" })
 	end,
 })
