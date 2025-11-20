@@ -1,5 +1,4 @@
 return {
-	-- GitHub Copilot
 	{
 		"zbirenbaum/copilot.lua",
 		cmd = "Copilot",
@@ -22,7 +21,7 @@ return {
 					},
 				},
 				suggestion = {
-					enabled = true,
+					enabled = false,
 					auto_trigger = true,
 					debounce = 75,
 					keymap = {
@@ -60,4 +59,3 @@ return {
 		end,
 	},
 }
-

@@ -61,10 +61,10 @@ return {
 					end, { "i", "s" }),
 				}),
 
-			sources = cmp.config.sources({
-				{ name = "copilot", priority = 1100 },
-				{ name = "nvim_lsp", priority = 1000 },
-				{ name = "luasnip", priority = 750 },
+				sources = cmp.config.sources({
+					{ name = "copilot", priority = 1100 },
+					{ name = "nvim_lsp", priority = 1000 },
+					{ name = "luasnip", priority = 750 },
 					{
 						name = "buffer",
 						priority = 500,
@@ -94,13 +94,13 @@ return {
 				formatting = {
 					fields = { "abbr", "kind", "menu" },
 					format = function(entry, item)
-						local menu_icon = {
-							copilot = "[Copilot]",
-							nvim_lsp = "[LSP]",
-							luasnip = "[Snip]",
-							buffer = "[Buf]",
-							path = "[Path]",
-						}
+					local menu_icon = {
+						nvim_lsp = "[LSP]",
+						luasnip = "[Snip]",
+						buffer = "[Buf]",
+						path = "[Path]",
+						copilot = "[Copilot]",
+					}
 						item.menu = menu_icon[entry.source.name]
 						return item
 					end,
