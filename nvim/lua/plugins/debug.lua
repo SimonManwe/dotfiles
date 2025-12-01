@@ -1,5 +1,4 @@
 -- stylua: ignore file
-
 return {
 	-- Core DAP plugin
 	{
@@ -144,23 +143,123 @@ return {
 			-- Stack trace navigation
 			vim.keymap.set("n", "<leader>du", dap.up, { desc = "Debug: Stack Up" })
 			vim.keymap.set("n", "<leader>dd", dap.down, { desc = "Debug: Stack Down" })
-			vim.keymap.set("n", "<leader>df", function()
-				require("dapui").float_element("stacks", { width = 100, height = 30, enter = true })
-			end, { desc = "Debug: Floating Stacktrace" })
+
+			-- Custom formatted stacktrace with better path handling
 			vim.keymap.set("n", "<leader>ds", function()
-				require("dapui").toggle({ layout = 1 })
-			end, { desc = "Debug: Toggle Stack Panel" })
+				local widgets = require("dap.ui.widgets")
+				local sidebar = widgets.sidebar(widgets.frames, {
+					width = 80, -- Wider for long paths
+				}, "vsplit")
+
+				-- Custom formatter for frames to shorten Spryker paths
+				local original_render = sidebar.render
+				sidebar.render = function(self)
+					if self.view and self.view.get_items then
+						local items = self.view:get_items()
+						for _, item in ipairs(items or {}) do
+							if item.name then
+								-- Shorten vendor paths
+								item.name = item.name:gsub("/data/vendor/spryker/", "vendor/")
+								item.name = item.name:gsub("/data/src/Pyz/", "Pyz/")
+								item.name = item.name:gsub("/data/", "")
+								-- Limit line length
+								if #item.name > 75 then
+									item.name = "..." .. item.name:sub(-72)
+								end
+							end
+						end
+					end
+					return original_render(self)
+				end
+
+				sidebar:open()
+			end, { desc = "Debug: Stacktrace Sidebar" })
+
+			-- Better floating stacktrace
+			vim.keymap.set("n", "<leader>df", function()
+				local session = require("dap").session()
+				if not session then
+					vim.notify("No active debug session", vim.log.levels.WARN)
+					return
+				end
+
+				-- Get stack frames
+				local frames = session.current_frame and session.threads[session.stopped_thread_id].frames or {}
+
+				if #frames == 0 then
+					vim.notify("No stack frames available", vim.log.levels.WARN)
+					return
+				end
+
+				-- Format frames with shortened paths
+				local lines = { "Stack Trace:", "" }
+				for i, frame in ipairs(frames) do
+					local name = frame.name or "unknown"
+					local source = frame.source and frame.source.path or "?"
+					local line = frame.line or 0
+
+					-- Shorten paths
+					source = source:gsub("/data/vendor/spryker/", "v/")
+					source = source:gsub("/data/src/Pyz/", "Pyz/")
+					source = source:gsub("/data/", "")
+
+					-- Format: frame number, function name, file:line
+					local marker = (i == 1) and "➡️ " or "   "
+					local frame_line = string.format("%s%2d. %s", marker, i, name)
+					local location = string.format("     %s:%d", source, line)
+
+					table.insert(lines, frame_line)
+					table.insert(lines, location)
+				end
+
+				-- Create floating window
+				local buf = vim.api.nvim_create_buf(false, true)
+				vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+				vim.api.nvim_buf_set_option(buf, "modifiable", false)
+				vim.api.nvim_buf_set_option(buf, "bufhidden", "wipe")
+
+				local width = 100
+				local height = math.min(#lines + 2, 40)
+				local opts = {
+					relative = "editor",
+					width = width,
+					height = height,
+					col = (vim.o.columns - width) / 2,
+					row = (vim.o.lines - height) / 2,
+					style = "minimal",
+					border = "rounded",
+					title = " Stack Trace ",
+					title_pos = "center",
+				}
+
+				local win = vim.api.nvim_open_win(buf, true, opts)
+
+				-- Keymaps in floating window
+				vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = buf, nowait = true })
+				vim.keymap.set("n", "<Esc>", "<cmd>close<cr>", { buffer = buf, nowait = true })
+
+				-- Jump to frame on Enter
+				vim.keymap.set("n", "<CR>", function()
+					local line_num = vim.api.nvim_win_get_cursor(win)[1]
+					-- Find which frame this is (every 2 lines = 1 frame)
+					local frame_idx = math.floor((line_num - 2) / 2) + 1
+					if frame_idx > 0 and frame_idx <= #frames then
+						vim.cmd("close")
+						require("dap").set_index(frame_idx)
+					end
+				end, { buffer = buf, nowait = true })
+			end, { desc = "Debug: Floating Stacktrace" })
+
+			-- Original frames sidebar (backup)
+			vim.keymap.set("n", "<leader>dF", function()
+				local widgets = require("dap.ui.widgets")
+				widgets.sidebar(widgets.frames):open()
+			end, { desc = "Debug: Frames Sidebar (Raw)" })
 
 			-- Hover to see variable values
 			vim.keymap.set("n", "<leader>dh", function()
 				require("dap.ui.widgets").hover()
 			end, { desc = "Debug: Hover Variables" })
-
-			-- Frames sidebar widget (alternative stacktrace view)
-			vim.keymap.set("n", "<leader>dF", function()
-				local widgets = require("dap.ui.widgets")
-				widgets.sidebar(widgets.frames):open()
-			end, { desc = "Debug: Open Frames Sidebar" })
 
 			-- Breakpoint signs/icons
 			vim.fn.sign_define("DapBreakpoint", { text = "🔴", texthl = "", linehl = "", numhl = "" })
