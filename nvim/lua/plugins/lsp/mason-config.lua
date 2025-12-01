@@ -14,7 +14,15 @@ return {
 		},
 		config = function()
 			require("mason-lspconfig").setup({
-				ensure_installed = { "lua_ls", "rust_analyzer", "html", "intelephense", "ts_ls" },
+				ensure_installed = {
+					"lua_ls",
+					"rust_analyzer",
+					"html",
+					"intelephense",
+					"ts_ls",
+					"cssls",
+					"tailwindcss",
+				},
 			})
 		end,
 	},
@@ -28,6 +36,7 @@ return {
 					"eslint_d", -- ESLint (faster daemon version)
 					"php-cs-fixer", -- PHP formatter
 					"rustfmt", -- Rust formatter
+					"stylelint", -- css formatter
 				},
 				auto_update = true,
 				run_on_start = true,

@@ -159,6 +159,60 @@ return {
 				},
 			},
 		})
+		-- css
+		vim.lsp.enable("cssls", {
+			capabilities = capabilities,
+			settings = {
+				css = {
+					validate = true,
+					lint = {
+						unknownAtRules = "ignore", -- Ignore for Tailwind @apply, @layer, etc.
+					},
+				},
+				scss = {
+					validate = true,
+					lint = {
+						unknownAtRules = "ignore",
+					},
+				},
+				less = {
+					validate = true,
+				},
+			},
+		})
+
+		-- Tailwind CSS (for Next.js)
+		vim.lsp.enable("tailwindcss", {
+			capabilities = capabilities,
+			filetypes = {
+				"html",
+				"css",
+				"scss",
+				"javascript",
+				"javascriptreact",
+				"typescript",
+				"typescriptreact",
+			},
+			settings = {
+				tailwindCSS = {
+					experimental = {
+						classRegex = {
+							-- Support for clsx, classnames, cn(), cva()
+							{ "clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+							{ "cn\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+							{ "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
+							{ "className.*?=.*?[\"'`]([^\"'`]*)" },
+						},
+					},
+				},
+			},
+			root_dir = function(fname)
+				local util = require("lspconfig.util")
+				return util.root_pattern("tailwind.config.js", "tailwind.config.ts", "postcss.config.js")(fname)
+					or util.find_package_json_ancestor(fname)
+					or util.find_node_modules_ancestor(fname)
+			end,
+		})
 
 		-- Large file handling - disable LSP for files > 1MB
 		vim.api.nvim_create_autocmd("BufReadPre", {
