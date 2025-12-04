@@ -94,13 +94,13 @@ return {
 				formatting = {
 					fields = { "abbr", "kind", "menu" },
 					format = function(entry, item)
-					local menu_icon = {
-						nvim_lsp = "[LSP]",
-						luasnip = "[Snip]",
-						buffer = "[Buf]",
-						path = "[Path]",
-						copilot = "[Copilot]",
-					}
+						local menu_icon = {
+							nvim_lsp = "[LSP]",
+							luasnip = "[Snip]",
+							buffer = "[Buf]",
+							path = "[Path]",
+							copilot = "[Copilot]",
+						}
 						item.menu = menu_icon[entry.source.name]
 						return item
 					end,
