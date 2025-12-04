@@ -109,6 +109,16 @@ source /usr/share/doc/fzf/examples/key-bindings.zsh
 if [ -f ~/.zsh_aliases ]; then
     source ~/.zsh_aliases
 fi
+#
+# Yazi shell wrapper - allows cd on quit
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
 
 # fzf auto-completion
 source /usr/share/doc/fzf/examples/completion.zsh
