@@ -1,0 +1,6 @@
+[mgr]
+prepend_keymap = [
+  { on = "<Enter>", run = "plugin --sync smart-enter", desc = "Smart enter" },
+  { on = "f", run = "plugin jump-to-char", desc = "Jump to char" },
+  { on = "c", run = "plugin chmod", desc = "Chmod" },
+]
