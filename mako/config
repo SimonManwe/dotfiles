@@ -1,0 +1,33 @@
+# Position
+anchor=top-right
+margin=10
+
+# Size
+width=350
+height=150
+
+# Style
+border-size=2
+border-radius=8
+padding=10,15
+
+# Colors (dark theme)
+background-color=#1e1e2e
+text-color=#cdd6f4
+border-color=#89b4fa
+
+# Progress bar color
+progress-color=over #313244
+
+# Timeout
+default-timeout=5000
+
+# Font
+font=Fira Code 11
+
+# Icons
+icons=1
+max-icon-size=64
+
+# Grouping
+group-by=app-name
