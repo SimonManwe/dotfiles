@@ -9,3 +9,6 @@ vim.o.autowrite = true
 vim.o.autowriteall = true
 vim.opt.updatetime = 250 -- Make this faster (default is 4000)
 vim.opt.clipboard = "unnamedplus" -- Use system clipboard
+-- Scrolloffset
+vim.opt.scrolloff = 4
+vim.opt.sidescrolloff = 6

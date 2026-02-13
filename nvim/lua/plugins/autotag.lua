@@ -1,0 +1,40 @@
+return {
+	"windwp/nvim-ts-autotag",
+	event = { "BufReadPre", "BufNewFile" },
+	dependencies = { "nvim-treesitter/nvim-treesitter" },
+	opts = {
+		-- Enable auto-tag for these filetypes
+		filetypes = {
+			"html",
+			"xml",
+			"javascript",
+			"javascriptreact",
+			"typescript",
+			"typescriptreact",
+			"vue",
+			"svelte",
+			"php",
+			"markdown",
+		},
+		-- Skip these tags
+		skip_tags = {
+			"area",
+			"base",
+			"br",
+			"col",
+			"command",
+			"embed",
+			"hr",
+			"img",
+			"input",
+			"keygen",
+			"link",
+			"meta",
+			"param",
+			"source",
+			"track",
+			"wbr",
+			"menuitem",
+		},
+	},
+}

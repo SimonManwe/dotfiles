@@ -22,7 +22,9 @@ return {
 					"ts_ls",
 					"cssls",
 					"tailwindcss",
+					"bashls",
 				},
+				automatic_installation = true,
 			})
 		end,
 	},
