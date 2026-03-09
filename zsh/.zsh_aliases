@@ -1,4 +1,24 @@
 alias updt='sudo apt update && sudo apt dist-upgrade -y && sudo apt autoremove -y && sudo apt autoclean -y'
+alias phpStorm='/opt/PhpStorm-252.27397.112/bin/phpstorm.sh'
+alias ausMaus='shutdown -h now'
 
 # spyker & next
 alias runhorst='sudo chmod 666 /var/run/docker.sock && cd ~/projects/spryker/ && docker/sdk up -x'
+alias sniffDiff='cd ~/projects/spryker/ && git diff --diff-filter=ACM --name-only development $(git rev-parse --abbrev-ref HEAD) -- src | xargs docker/sdk cli vendor/bin/phpcs'
+alias phpFixDiff='cd ~/projects/spryker/ && git diff --diff-filter=ACM --name-only development $(git rev-parse --abbrev-ref HEAD) -- src | xargs docker/sdk cli vendor/bin/phpcbf'
+alias sniffAll='cd ~/projects/spryker/ && docker/sdk console code:sniff:style src/Pyz && docker/sdk console code:sniff:style tests/PyzTest'
+alias switchEnv='~/projects/personal/scripts/utils/next/useEnv.sh'
+
+# Seg VPN
+alias vpn-connect='~/.config/vpn/connect.sh'
+alias vpn-disconnect='~/.config/vpn/disconnect.sh'
+alias vpn-status='nmcli connection show --active | grep vpn || echo "VPN not connected"'
+
+# Vex aka excel viewing alias
+alias vex='vex-tui'
+
+# Jira
+alias jira="jiratui ui --search-on-startup --jql-expression-id 1"
+
+# Bluetooth
+alias connect-airpods='~/projects/personal/scripts/utils/bluetooth/connect-airpods.sh'
