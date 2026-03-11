@@ -14,6 +14,27 @@ return {
 					telescope = true,
 					nvimtree = true,
 					cmp = true,
+					neotest = true,
+					dap = true,
+					dap_ui = true,
+					gitsigns = true,
+					which_key = true,
+					indent_blankline = { enabled = true },
+					native_lsp = {
+						enabled = true,
+						virtual_text = {
+							errors = { "italic" },
+							hints = { "italic" },
+							warnings = { "italic" },
+							information = { "italic" },
+						},
+						underlines = {
+							errors = { "underline" },
+							hints = { "underline" },
+							warnings = { "underline" },
+							information = { "underline" },
+						},
+					},
 				},
 				custom_highlights = function(colors)
 					return {
@@ -51,6 +72,8 @@ return {
 					treesitter = true,
 					cmp = true,
 					gitsigns = true,
+					trouble = true,
+					whichkey = true,
 				},
 			})
 			vim.cmd.colorscheme("cyberdream")
