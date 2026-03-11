@@ -12,6 +12,7 @@
 - [Telescope (Fuzzy Finder)](#telescope-fuzzy-finder)
 - [Buffer Management](#buffer-management)
 - [LSP (Language Server)](#lsp-language-server)
+- [Code Folding (nvim-ufo)](#code-folding-nvim-ufo)
 - [Git Integration (Gitsigns)](#git-integration-gitsigns)
 - [GitHub Copilot](#github-copilot)
 - [GitHub Copilot Chat](#github-copilot-chat)
@@ -35,6 +36,11 @@
 - **Auto-save**: Enabled on buffer leave
 - **Clipboard**: Shared with system (`unnamedplus`)
 - **Update Time**: 250ms (for faster git signs, etc.)
+- **Search**: Case insensitive (smart case when uppercase used)
+- **Undo**: Persistent across sessions (`undofile`)
+- **Sign Column**: Always visible
+- **Splits**: Open right/below
+- **True Colors**: Enabled (`termguicolors`)
 
 ---
 
@@ -153,6 +159,31 @@
 - **Diagnostics**: Inline error/warning display
 - **Document Highlight**: Highlights symbol under cursor
 - **Spryker PHP**: Custom configuration for Spryker projects
+
+---
+
+## Code Folding (nvim-ufo)
+
+### Fold Navigation
+| Key | Mode | Action | Description |
+|-----|------|--------|-------------|
+| `za` | Normal | Toggle Fold | Toggle fold under cursor |
+| `zo` | Normal | Open Fold | Open fold under cursor |
+| `zc` | Normal | Close Fold | Close fold under cursor |
+| `zR` | Normal | Open All | Open all folds in buffer |
+| `zM` | Normal | Close All | Close all folds in buffer |
+| `zr` | Normal | Reduce Level | Open folds except kinds |
+| `zm` | Normal | Increase Level | Close folds with level |
+| `zK` | Normal | Peek Fold | Preview folded lines without opening |
+| `zj` | Normal | Next Fold | Jump to next fold |
+| `zk` | Normal | Previous Fold | Jump to previous fold |
+
+### Folding Features
+- **Provider**: Treesitter with indent fallback
+- **Fold Text**: Shows first line + line count (e.g., `function foo() 󰁂 15 lines`)
+- **Start Open**: All folds open by default (`foldlevel = 99`)
+- **Horizontal Movement**: Does NOT open folds when navigating left/right
+- **Fold Column**: Visible on left side with fold indicators
 
 ---
 
@@ -413,12 +444,17 @@ Custom PHP LSP settings optimized for Spryker:
 ## Additional Plugins
 
 ### Installed Plugins
-- **Colorscheme**: Tokyo Night / Catppuccin / Rose Pine
+- **Colorscheme**: Catppuccin / Cyberdream
 - **Treesitter**: Syntax highlighting (PHP, Lua, JavaScript, etc.)
-- **Auto-close**: Auto-close brackets, quotes
-- **PHP Docblocks**: Generate PHPDoc comments
+- **Autopairs**: Auto-close brackets, quotes (with treesitter + cmp integration)
+- **nvim-ufo**: Modern code folding with treesitter
+- **Undotree**: Visual undo history navigation
+- **PHP Docblocks**: Generate PHPDoc comments (Neogen)
 - **Formatting**: conform.nvim (Prettier, PHP CS Fixer)
 - **Mason**: LSP/DAP/Formatter installer
+- **Trouble**: Pretty diagnostics list
+- **Harpoon**: Quick file navigation
+- **Yazi**: Terminal file manager integration
 
 ### Formatter Keybindings
 Auto-formatting is typically configured via LSP or conform.nvim.
@@ -472,25 +508,39 @@ Check `:ConformInfo` for available formatters.
 │   │   ├── remap.lua          # Custom keymaps
 │   │   └── sprykerOptions.lua # Spryker-specific settings
 │   └── plugins/
-│       ├── autoclose.lua
-│       ├── bufferline.lua     # Buffer tabs
-│       ├── cmp.lua            # Completion engine
-│       ├── colorscheme.lua
-│       ├── copilot.lua        # GitHub Copilot
-│       ├── copilot-chat.lua   # Copilot Chat
-│       ├── debug.lua          # DAP debugger
-│       ├── formatting.lua
-│       ├── gitsigns.lua       # Git integration
-│       ├── neo-tree.lua       # File explorer
-│       ├── php-docblocks.lua
-│       ├── sprykerPlugins.lua # Spryker tools
-│       ├── telescope.lua      # Fuzzy finder
-│       ├── treesitter.lua     # Syntax highlighting
-│       ├── undotree.lua
-│       └── lsp/
-│           ├── lsp.lua               # LSP config
-│           ├── mason-config.lua     # LSP installer
-│           └── spryker-lsp-options.lua
+│       ├── codeTools/
+│       │   ├── cmp.lua            # Completion engine
+│       │   ├── colorizer.lua      # Color preview
+│       │   ├── formatting.lua     # Code formatters
+│       │   ├── gitsigns.lua       # Git integration
+│       │   ├── harpoon.lua        # Quick file marks
+│       │   ├── treesitter.lua     # Syntax highlighting
+│       │   └── ufo.lua            # Code folding
+│       ├── colorscheme/
+│       │   └── colorscheme.lua
+│       ├── errorHandling/
+│       │   └── debug.lua          # DAP debugger
+│       ├── experimental/
+│       │   └── trouble.lua        # Diagnostics list
+│       ├── lsp/
+│       │   ├── lsp.lua            # LSP config
+│       │   ├── mason-config.lua   # LSP installer
+│       │   └── spryker-lsp-options.lua
+│       ├── php/
+│       │   ├── php-docblocks.lua  # PHPDoc generator
+│       │   └── sprykerPlugins.lua
+│       ├── tools/
+│       │   ├── telescope.lua      # Fuzzy finder
+│       │   └── yazi.lua           # File manager
+│       └── util/
+│           ├── autopairs.lua      # Auto brackets/quotes
+│           ├── autotag.lua        # HTML/XML auto tags
+│           ├── blankline.lua      # Indent guides
+│           ├── bufferline.lua     # Buffer tabs
+│           ├── mini-icons.lua     # Icons
+│           ├── neo-tree.lua       # File explorer
+│           ├── undotree.lua       # Undo history
+│           └── which-key.lua      # Key hints
 └── docs/
     ├── keybindings.md         # This file
     └── spryker-pyz.md         # Spryker documentation
