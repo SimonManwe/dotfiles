@@ -32,7 +32,9 @@ if [[ -n $SSH_CONNECTION ]]; then
    export EDITOR='nvim'
 fi
 # source fzf keybindings
-source /usr/share/doc/fzf/examples/key-bindings.zsh
+# source /usr/share/doc/fzf/examples/key-bindings.zsh
+# arch keybinding
+source /usr/share/fzf/key-bindings.zsh
 # Load aliases
 if [ -f ~/.zsh_aliases ]; then
     source ~/.zsh_aliases
@@ -49,13 +51,15 @@ function y() {
 }
 
 #ssh setup via keychain
-eval $(keychain --eval --agents ssh --quiet sgail)
+#eval $(keychain --eval --agents ssh --quiet sgail)
 
 # fzf auto-completion
-source /usr/share/doc/fzf/examples/completion.zsh
+#source /usr/share/doc/fzf/examples/completion.zsh
+#arch keybinding
+source /usr/share/fzf/completion.zsh
+# other shit
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 eval "$(zoxide init zsh)"
 export PATH=$HOME/.local/bin:$PATH
-#fastfetch
