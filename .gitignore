@@ -1,1 +1,2 @@
-/.idea
+.idea/
+**/lazy-lock.json
