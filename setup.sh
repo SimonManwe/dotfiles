@@ -11,8 +11,7 @@ PACKAGES=(
 echo "Setting up dotfiles..."
 
 if ! command -v stow &> /dev/null; then
-    echo "stow not found, attempting install..."
-    sudo pacman -S stow
+    echo "stow not found, please install gnu stow"
 fi
 
 for pkg in "${PACKAGES[@]}"; do
@@ -26,7 +25,7 @@ for pkg in "${PACKAGES[@]}"; do
 done
 
 if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
-    echo "Installing TPM..."
+    echo "Installing TPM for tmux..."
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     echo "✓ TPM successfully installed"
 else
