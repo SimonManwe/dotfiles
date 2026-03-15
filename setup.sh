@@ -25,4 +25,20 @@ for pkg in "${PACKAGES[@]}"; do
     fi
 done
 
-echo "Dotfiles setup complete!"
+if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
+    echo "Installing TPM..."
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    echo "✓ TPM successfully installed"
+else
+    echo "✓ TPM already installed"
+fi
+
+if [ ! -d "$HOME/.tmux/plugins/catppuccin" ]; then
+    echo "Installing catppuccin tmux..."
+    git clone -b v2.1.3 https://github.com/catppuccin/tmux.git ~/.tmux/plugins/catppuccin/tmux
+    echo "✓ Catppuccin installed successfully"
+else
+    echo "✓ Catppuccin  installed"
+fi
+
+echo "Dotfiles setup complete! Start tmux and press prefix + I to install plugins"
