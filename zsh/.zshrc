@@ -37,9 +37,13 @@ if [[ -n $SSH_CONNECTION ]]; then
    export EDITOR='nvim'
 fi
 # source fzf keybindings
-source /usr/share/doc/fzf/examples/key-bindings.zsh
+if [[ -d /usr/share/doc/fzf/examples/key-bindings.zsh ]]; then
+	source /usr/share/doc/fzf/examples/key-bindings.zsh
+fi
 # arch keybinding
-#source /usr/share/fzf/key-bindings.zsh
+if [[ -d /usr/share/fzf/key-bindings.zsh ]]; then
+	source /usr/share/fzf/key-bindings.zsh
+fi
 # Load aliases
 if [ -f ~/.zsh_aliases ]; then
     source ~/.zsh_aliases
@@ -59,9 +63,13 @@ function y() {
 eval $(keychain --eval --agents ssh --quiet sgail)
 
 # fzf auto-completion
-source /usr/share/doc/fzf/examples/completion.zsh
+if [[ -d /usr/share/doc/fzf/examples/completion.zsh ]]; then
+	source /usr/share/doc/fzf/examples/completion.zsh
+fi
 #arch keybinding
-#source /usr/share/fzf/completion.zsh
+if [[ -d /usr/share/fzf/completion.zsh ]]; then
+	source /usr/share/fzf/completion.zsh
+fi
 # other shit
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
