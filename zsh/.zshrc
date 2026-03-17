@@ -37,11 +37,11 @@ if [[ -n $SSH_CONNECTION ]]; then
    export EDITOR='nvim'
 fi
 # source fzf keybindings
-if [[ -d /usr/share/doc/fzf/examples/key-bindings.zsh ]]; then
+if [[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]]; then
 	source /usr/share/doc/fzf/examples/key-bindings.zsh
 fi
 # arch keybinding
-if [[ -d /usr/share/fzf/key-bindings.zsh ]]; then
+if [[ -f /usr/share/fzf/key-bindings.zsh ]]; then
 	source /usr/share/fzf/key-bindings.zsh
 fi
 # Load aliases
@@ -63,11 +63,11 @@ function y() {
 eval $(keychain --eval --agents ssh --quiet sgail)
 
 # fzf auto-completion
-if [[ -d /usr/share/doc/fzf/examples/completion.zsh ]]; then
+if [[ -f /usr/share/doc/fzf/examples/completion.zsh ]]; then
 	source /usr/share/doc/fzf/examples/completion.zsh
 fi
 #arch keybinding
-if [[ -d /usr/share/fzf/completion.zsh ]]; then
+if [[ -f /usr/share/fzf/completion.zsh ]]; then
 	source /usr/share/fzf/completion.zsh
 fi
 # other shit
