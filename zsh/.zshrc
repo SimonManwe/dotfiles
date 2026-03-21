@@ -60,7 +60,10 @@ function y() {
 }
 
 #ssh setup via keychain
-eval $(keychain --eval --agents ssh --quiet sgail)
+if ! command -v keychain >/dev/null 2>&1
+then
+	eval $(keychain --eval --agents ssh --quiet sgail)
+fi
 
 # fzf auto-completion
 if [[ -f /usr/share/doc/fzf/examples/completion.zsh ]]; then
