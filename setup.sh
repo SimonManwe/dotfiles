@@ -40,4 +40,18 @@ else
 	echo "✓ Catppuccin already installed"
 fi
 
+if [ ! -d "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ]; then
+	echo "Installing zsh-autosuggestion"
+	git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+else
+	echo "zsh autosuggestions already installed"
+fi
+
+if [ ! -d "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ]; then
+	echo "Installing zsh-highlighting"
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+else
+	echo "zsh highlighting already installed"
+fi
+
 echo "Dotfiles setup complete! Start tmux and press prefix + I to install plugins"
