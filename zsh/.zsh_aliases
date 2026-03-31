@@ -14,6 +14,9 @@ alias vpn-connect='~/.config/vpn/connect.sh'
 alias vpn-disconnect='~/.config/vpn/disconnect.sh'
 alias vpn-status='nmcli connection show --active | grep vpn || echo "VPN not connected"'
 
+# rust based git tui
+alias gt='gitui'
+
 # Vex aka excel viewing alias
 alias vex='vex-tui'
 
