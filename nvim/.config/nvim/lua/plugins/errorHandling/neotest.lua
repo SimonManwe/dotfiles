@@ -10,14 +10,62 @@ return {
 		"olimorris/neotest-phpunit",
 	},
 	keys = {
-		{ "<leader>Tt", function() require("neotest").run.run() end, desc = "Run nearest test" },
-		{ "<leader>Tf", function() require("neotest").run.run(vim.fn.expand("%")) end, desc = "Run file tests" },
-		{ "<leader>Ts", function() require("neotest").summary.toggle() end, desc = "Toggle summary" },
-		{ "<leader>To", function() require("neotest").output.open({ enter = true }) end, desc = "Show output" },
-		{ "<leader>TO", function() require("neotest").output_panel.toggle() end, desc = "Toggle output panel" },
-		{ "<leader>TS", function() require("neotest").run.stop() end, desc = "Stop test" },
-		{ "[t", function() require("neotest").jump.prev({ status = "failed" }) end, desc = "Prev failed test" },
-		{ "]t", function() require("neotest").jump.next({ status = "failed" }) end, desc = "Next failed test" },
+		{
+			"<leader>Tt",
+			function()
+				require("neotest").run.run()
+			end,
+			desc = "Run nearest test",
+		},
+		{
+			"<leader>Tf",
+			function()
+				require("neotest").run.run(vim.fn.expand("%"))
+			end,
+			desc = "Run file tests",
+		},
+		{
+			"<leader>Ts",
+			function()
+				require("neotest").summary.toggle()
+			end,
+			desc = "Toggle summary",
+		},
+		{
+			"<leader>To",
+			function()
+				require("neotest").output.open({ enter = true })
+			end,
+			desc = "Show output",
+		},
+		{
+			"<leader>TO",
+			function()
+				require("neotest").output_panel.toggle()
+			end,
+			desc = "Toggle output panel",
+		},
+		{
+			"<leader>TS",
+			function()
+				require("neotest").run.stop()
+			end,
+			desc = "Stop test",
+		},
+		{
+			"[t",
+			function()
+				require("neotest").jump.prev({ status = "failed" })
+			end,
+			desc = "Prev failed test",
+		},
+		{
+			"]t",
+			function()
+				require("neotest").jump.next({ status = "failed" })
+			end,
+			desc = "Next failed test",
+		},
 	},
 	config = function()
 		require("neotest").setup({
@@ -26,7 +74,13 @@ return {
 					jestCommand = "npm test --",
 				}),
 				require("neotest-rust"),
-				require("neotest-phpunit"),
+				require("neotest-phpunit")({
+					phpunit_cmd = function()
+						return "docker/sdk"
+					end,
+					args = { "cli", "vendor/bin/phpunit" },
+					root_files = { "phpunit.xml", "composer.json" },
+				}),
 			},
 			floating = {
 				border = "rounded",
@@ -53,8 +107,8 @@ return {
 			},
 		})
 
-		vim.api.nvim_set_hl(0, "NeotestPassed", { fg = "#a6e3a1" })  -- green
-		vim.api.nvim_set_hl(0, "NeotestFailed", { fg = "#f38ba8" })  -- red
+		vim.api.nvim_set_hl(0, "NeotestPassed", { fg = "#a6e3a1" }) -- green
+		vim.api.nvim_set_hl(0, "NeotestFailed", { fg = "#f38ba8" }) -- red
 		vim.api.nvim_set_hl(0, "NeotestRunning", { fg = "#f9e2af" }) -- yellow
 		vim.api.nvim_set_hl(0, "NeotestSkipped", { fg = "#9399b2" }) -- gray
 	end,
