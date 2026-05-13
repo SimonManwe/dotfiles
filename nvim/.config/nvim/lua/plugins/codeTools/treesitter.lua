@@ -24,6 +24,7 @@ return {
 			"css",
 			"python",
 			"php",
+			"phpdoc",
 			"rust",
 			"tmux",
 		})
