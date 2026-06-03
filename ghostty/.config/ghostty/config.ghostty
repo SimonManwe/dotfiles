@@ -12,6 +12,9 @@ font-feature = +liga
 # Shell
 command = /bin/zsh
 
+# ssh
+shell-integration-features = ssh-env,ssh-terminfo
+
 # URL settings
 link-url = true
 
