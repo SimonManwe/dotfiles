@@ -3,6 +3,7 @@
 PACKAGES=(
 	nvim
 	kitty
+	ghostty
 	zsh
 	tmux
 	yazi

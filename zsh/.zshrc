@@ -18,6 +18,7 @@ fi
 
 ZSH_THEME="robbyrussell"
 
+export TERM=xterm-256color
 
 plugins=(git zsh-syntax-highlighting zsh-autosuggestions)
 
