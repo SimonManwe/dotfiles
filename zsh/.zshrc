@@ -20,7 +20,7 @@ ZSH_THEME="robbyrussell"
 
 export TERM=xterm-256color
 
-plugins=(git zsh-syntax-highlighting zsh-autosuggestions)
+plugins=(git zsh-syntax-highlighting zsh-autosuggestions fzf)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -38,12 +38,16 @@ if [[ -n $SSH_CONNECTION ]]; then
    export EDITOR='nvim'
 fi
 # source fzf keybindings
-if [[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]]; then
-	source /usr/share/doc/fzf/examples/key-bindings.zsh
-fi
-# arch keybinding
-if [[ -f /usr/share/fzf/key-bindings.zsh ]]; then
-	source /usr/share/fzf/key-bindings.zsh
+# fzf fallback if OMZ plugin didn't catch it
+if ! type _fzf_complete > /dev/null 2>&1; then
+    for f in /usr/share/fzf/key-bindings.zsh \
+              /usr/share/doc/fzf/examples/key-bindings.zsh; do
+        [[ -f $f ]] && source $f && break
+    done
+    for f in /usr/share/fzf/completion.zsh \
+              /usr/share/doc/fzf/examples/completion.zsh; do
+        [[ -f $f ]] && source $f && break
+    done
 fi
 # Load aliases
 if [ -f ~/.zsh_aliases ]; then
@@ -60,20 +64,11 @@ function y() {
 	rm -f -- "$tmp"
 }
 
-#ssh setup via keychain
-if command -v keychain >/dev/null 2>&1
-then
-	eval $(keychain --eval --agents ssh --quiet sgail)
+# Hyperland ssh setup
+if [[ "$XDG_CURRENT_DESKTOP" == "Hyprland" ]]; then
+    export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 fi
 
-# fzf auto-completion
-if [[ -f /usr/share/doc/fzf/examples/completion.zsh ]]; then
-	source /usr/share/doc/fzf/examples/completion.zsh
-fi
-#arch keybinding
-if [[ -f /usr/share/fzf/completion.zsh ]]; then
-	source /usr/share/fzf/completion.zsh
-fi
 # other shit
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
