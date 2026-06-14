@@ -53,7 +53,7 @@ return {
 		})
 
 		-- LSP optimizations for large projects
-		vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+		vim.diagnostic.config({
 			update_in_insert = false,
 			virtual_text = {
 				spacing = 4,
@@ -198,9 +198,9 @@ return {
 					experimental = {
 						classRegex = {
 							-- Support for clsx, classnames, cn(), cva()
-							{ "clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
-							{ "cn\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
-							{ "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
+							{ "clsx\\(([^)]*)\\)",               "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+							{ "cn\\(([^)]*)\\)",                 "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+							{ "cva\\(([^)]*)\\)",                "[\"'`]([^\"'`]*).*?[\"'`]" },
 							{ "className.*?=.*?[\"'`]([^\"'`]*)" },
 						},
 					},
