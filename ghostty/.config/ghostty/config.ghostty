@@ -1,6 +1,6 @@
 # Terminal styling
 background-opacity = 0.8
-theme = Builtin Pastel Dark
+theme = Catppuccin Mocha
 window-decoration = false
 
 # Fonts
@@ -26,10 +26,11 @@ scrollback-limit = 10000
 
 # Colors
 background =#000000
-foreground =#00a595
+foreground = #CBE0F0
 cursor-color =#bbbbbb
-selection-background =#00a48c
-selection-foreground =#000000
+selection-background = #033259
+selection-foreground = #CBE0F0
+cursor-text=#011423
 bold-is-bright = true
 
 # Normal colors (0-7)
