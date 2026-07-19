@@ -17,12 +17,5 @@ alias vpn-status='nmcli connection show --active | grep vpn || echo "VPN not con
 # rust based git tui
 alias gt='gitui'
 
-# Vex aka excel viewing alias
-alias vex='vex-tui'
-
 # Jira
 alias jira="jiratui ui --search-on-startup --jql-expression-id 1"
-
-# Bluetooth
-alias connect-airpods='~/projects/personal/scripts/utils/bluetooth/connect-airpods.sh'
-
