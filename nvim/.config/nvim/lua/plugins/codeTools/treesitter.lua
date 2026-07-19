@@ -26,7 +26,6 @@ return {
 			"php",
 			"phpdoc",
 			"rust",
-			"tmux",
 		})
 
 		vim.api.nvim_create_autocmd("FileType", {
