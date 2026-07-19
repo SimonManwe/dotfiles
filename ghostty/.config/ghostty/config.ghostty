@@ -21,6 +21,9 @@ link-url = true
 # Mouse settings
 mouse-hide-while-typing = true
 
+# close Terminal windows without confirmation
+confirm-close-surface = false
+
 # Scrollback
 scrollback-limit = 10000
 
