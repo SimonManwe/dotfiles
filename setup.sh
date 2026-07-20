@@ -7,6 +7,7 @@ PACKAGES=(
 	zsh
 	tmux
 	yazi
+	ssh
 )
 
 echo "Setting up dotfiles..."
