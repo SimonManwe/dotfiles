@@ -15,12 +15,13 @@ return {
 			},
 		},
 		presets = {
-			bottom_search = true, -- keep classic bottom cmdline for live search
+			bottom_search = false, -- keep classic bottom cmdline for live search
 			command_palette = true, -- position cmdline + popupmenu together (floating)
 			long_message_to_split = true, -- long messages go to a split, not a big popup
 			inc_rename = false,  -- only relevant for inc-rename.nvim
 			lsp_doc_border = false, -- no border on hover/signature popups
 		},
+		-- Supress common messages without value
 		routes = {
 			{
 				filter = {
@@ -43,6 +44,43 @@ return {
 					event = "msg_show",
 					kind = "",
 					find = "more lines",
+				},
+				opts = { skip = true },
+			},
+			{
+				filter = {
+					event = "msg_show",
+					kind = "",
+					find = "fewer lines",
+				},
+				opts = { skip = true },
+			},
+			{
+				filter = {
+					event = "msg_show",
+					kind = "",
+					find = "written",
+				},
+				opts = { skip = true },
+			},
+			{
+				filter = {
+					event = "msg_show",
+					kind = "search_count",
+				},
+				opts = { skip = true },
+			},
+			{
+				filter = {
+					event = "msg_show",
+					find = "search hit BOTTOM",
+				},
+				opts = { skip = true },
+			},
+			{
+				filter = {
+					event = "msg_show",
+					find = "search hit TOP",
 				},
 				opts = { skip = true },
 			},
