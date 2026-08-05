@@ -120,6 +120,23 @@ return {
 				})
 			end
 
+			local function telescope_live_grep_all()
+				builtin.live_grep({
+					additional_args = { "--no-ignore", "--hidden", "--glob=!.git/" },
+					prompt_title = "Live Grep (incl. vendor / node_modules)",
+				})
+			end
+
+			local function telescope_find_files_all()
+				builtin.find_files({
+					hidden = true,
+					no_ignore = true,
+					no_ignore_parent = true,
+					find_command = { "rg", "--files", "--no-ignore", "--hidden", "--glob=!.git/" },
+					prompt_title = "Find Files (incl. vendor / node_modules)",
+				})
+			end
+
 			vim.keymap.set("n", "<leader>s/", telescope_live_grep_open_files, { desc = "[S]earch [/] Open Files" })
 			vim.keymap.set("n", "<leader>ss", builtin.builtin, { desc = "[S]elect Telescope" })
 			vim.keymap.set("n", "<leader>gf", builtin.git_files, { desc = "[G]it [F]iles" })
@@ -128,6 +145,18 @@ return {
 			vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch current [W]ord" })
 			vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
 			vim.keymap.set("n", "<leader>sG", ":LiveGrepGitRoot<cr>", { desc = "[G]rep Git Root" })
+			vim.keymap.set(
+				"n",
+				"<leader>sAG",
+				telescope_live_grep_all,
+				{ desc = "[S]earch [A]ll (incl. vendor/node_modules)" }
+			)
+			vim.keymap.set(
+				"n",
+				"<leader>sAF",
+				telescope_find_files_all,
+				{ desc = "[S]earch [A]ll files (incl. vendor/node_modules)" }
+			)
 			vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
 			vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
 
