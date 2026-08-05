@@ -112,10 +112,4 @@ export NVM_DIR="$HOME/.nvm"
 eval "$(zoxide init zsh)"
 export PATH=$HOME/.local/bin:$PATH
 
-if command -v claude &> /dev/null; then
-  export ANTHROPIC_BASE_URL="http://localhost:4141"
-  export ANTHROPIC_AUTH_TOKEN="sk-dummytokenshit"
-  export DISABLE_NON_ESSENTIAL_MODEL_CALLS="1"
-fi
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
