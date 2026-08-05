@@ -73,7 +73,7 @@ return {
 				require("neotest-jest")({
 					jestCommand = "npm test --",
 				}),
-				require("neotest-rust"),
+				require("rustaceanvim.neotest"),
 				require("neotest-phpunit")({
 					phpunit_cmd = function()
 						return "docker/sdk"
