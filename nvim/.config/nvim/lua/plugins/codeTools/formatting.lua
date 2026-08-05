@@ -15,6 +15,7 @@ return {
 				less = { "prettier" },
 				html = { "prettier" },
 				json = { "prettier" },
+				jsonc = { "prettier" },
 				yaml = { "prettier" },
 				markdown = { "prettier" },
 				php = { "php_cs_fixer" },
