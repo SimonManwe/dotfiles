@@ -4,11 +4,11 @@ return {
 		"williamboman/mason.nvim",
 		"williamboman/mason-lspconfig.nvim",
 		"nvim-telescope/telescope.nvim",
-		"hrsh7th/cmp-nvim-lsp",
+		"saghen/blink.cmp",
 	},
 	config = function()
-		-- Get completion capabilities from nvim-cmp
-		local capabilities = require("cmp_nvim_lsp").default_capabilities()
+		-- Get completion capabilities from blink.cmp
+		local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 		-- Keybindings for LSP using Telescope
 		local on_attach = function(_, bufnr)

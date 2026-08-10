@@ -34,11 +34,13 @@ return {
 					columns = { { "kind_icon" }, { "label", "label_description", gap = 1 }, { "source_name" } },
 				},
 			},
+			list = { selection = { preselect = false, auto_insert = true } },
 			documentation = {
 				auto_show = false,
 				window = { border = "rounded" },
 			},
 			ghost_text = { enabled = false },
+			accept = { auto_brackets = { enabled = true } },
 		},
 
 		sources = {
@@ -65,4 +67,19 @@ return {
 
 		fuzzy = { implementation = "rust" },
 	},
+
+	config = function(_, opts)
+		-- Workaround for an upstream blink.cmp bug on nvim 0.12.0-dev.
+		local utils = require("blink.cmp.lib.utils")
+		local to_cursor = utils.vim_pos_to_cursor
+		utils.vim_pos_to_cursor = function(pos)
+			local cursor = to_cursor(pos)
+			if type(cursor[1]) == "table" then
+				return cursor[1]
+			end
+			return cursor
+		end
+
+		require("blink.cmp").setup(opts)
+	end,
 }
