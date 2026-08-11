@@ -1,6 +1,5 @@
 -- stylua: ignore file
 return {
-	-- Core DAP plugin
 	{
 		"mfussenegger/nvim-dap",
 		dependencies = {
@@ -12,7 +11,6 @@ return {
 			local dap = require("dap")
 			local dapui = require("dapui")
 
-			-- Setup DAP UI
 			dapui.setup({
 				icons = {
 					expanded = "▾",
