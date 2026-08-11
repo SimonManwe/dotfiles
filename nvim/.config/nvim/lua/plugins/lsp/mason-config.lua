@@ -30,7 +30,7 @@ return {
 			})
 
 			require("mason-nvim-dap").setup({
-				ensure_installed = { "codelldb", "php" },
+				ensure_installed = { "codelldb", "php", "js-debug-adapter" },
 				automatic_installation = true,
 				handlers = {
 					function(config)
