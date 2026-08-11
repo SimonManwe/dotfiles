@@ -18,7 +18,8 @@ return {
 					"lua_ls",
 					"rust_analyzer",
 					"html",
-					"intelephense",
+					-- "intelephense",
+					"phpactor",
 					"ts_ls",
 					"cssls",
 					"tailwindcss",
@@ -37,7 +38,6 @@ return {
 					"prettier", -- Prettier formatter
 					"eslint_d", -- ESLint (faster daemon version)
 					"php-cs-fixer", -- PHP formatter
-					"rustfmt", -- Rust formatter
 					"stylelint", -- css formatter
 				},
 				auto_update = true,

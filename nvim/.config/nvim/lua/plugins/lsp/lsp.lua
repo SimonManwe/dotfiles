@@ -18,6 +18,7 @@ return {
 				end
 				vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
 			end
+
 			nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
 			nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 			nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
@@ -61,7 +62,6 @@ return {
 			},
 		})
 
-		-- Enable LSP servers with capabilities (Neovim 0.11+ style)
 		vim.lsp.enable("ts_ls", {
 			capabilities = capabilities,
 			settings = {
@@ -111,55 +111,28 @@ return {
 			},
 		})
 
-		vim.lsp.enable("intelephense", {
+		vim.lsp.enable("phpactor", {
 			capabilities = capabilities,
-			settings = {
-				intelephense = {
-					stubs = {
-						"apache",
-						"bcmath",
-						"Core",
-						"curl",
-						"date",
-						"dom",
-						"fileinfo",
-						"filter",
-						"json",
-						"mbstring",
-						"mysqli",
-						"PDO",
-						"pdo_mysql",
-						"redis",
-						"Reflection",
-						"session",
-						"SimpleXML",
-						"SPL",
-						"standard",
-						"xml",
-						"xmlreader",
-						"xmlwriter",
-						"yaml",
-					},
-					files = {
-						maxSize = 5000000,
-						associations = { "*.php" },
-					},
-					environment = {
-						-- Include Spryker generated files
-						includePaths = {
-							"vendor/spryker",
-							"src/Generated",
-						},
-					},
-					diagnostics = {
-						enable = true,
-					},
-					-- Important: Clear cache on startup
-					clearCache = true,
+			init_options = {
+				["language_server_phpstan.enabled"] = false,
+				["language_server_psalm.enabled"] = false,
+				["indexer.exclude_patterns"] = {
+					"*/vendor/*/tests/*",
+					"*/vendor/*/Tests/*",
+					"*/node_modules/*",
+					"*/data/*",
+					"*/log/*",
+					"*/public/*/assets/*",
 				},
+				["indexer.include_patterns"] = {
+					"src/Generated/**/*.php",
+				},
+				["php_version"] = "8.4",
+				["completion_worse.completor.doc_block.enabled"] = true,
+				["symfony.enabled"] = false,
 			},
 		})
-		-- css
+
 		vim.lsp.enable("cssls", {
 			capabilities = capabilities,
 			settings = {
@@ -181,7 +154,6 @@ return {
 			},
 		})
 
-		-- Tailwind CSS (for Next.js)
 		vim.lsp.enable("tailwindcss", {
 			capabilities = capabilities,
 			filetypes = {
