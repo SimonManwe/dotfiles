@@ -1,6 +1,5 @@
 require("tron.lazy")
 require("tron.remap")
 require("tron.options")
-require("tron.sprykerOptions")
 require("tron.pyz").setup()
 require("tron.autocmds")
