@@ -1,5 +1,4 @@
 return {
-	-- PHP Namespace/Class utilities
 	{
 		"phpactor/phpactor",
 		build = "composer install --no-dev --optimize-autoloader",
@@ -21,26 +20,6 @@ return {
 			"nvim-telescope/telescope.nvim",
 		},
 	},
-
-	-- Better PHP refactoring
-	{
-		"ta-tikoma/php.easy.nvim",
-		dependencies = {
-			"L3MON4D3/LuaSnip",
-		},
-		opts = {
-			onSave = {
-				removeUnusedImports = true,
-			},
-		},
-		keys = {
-			{ "-i", "<CMD>PHPInitInterface<CR>", desc = "PHP: Initialize Interface" },
-			{ "-c", "<CMD>PHPInitClass<CR>", desc = "PHP: Initialize Class" },
-			{ "-ac", "<CMD>PHPAppendConstant<CR>", desc = "PHP: Append Constant" },
-			{ "-rc", "<CMD>PHPRemoveUnusedImports<CR>", desc = "PHP: Remove Unused Imports" },
-		},
-	},
-
 	-- Advanced text objects for PHP (e.g., ci$ for variable names)
 	{
 		"kana/vim-textobj-user",
@@ -48,7 +27,6 @@ return {
 			"2072/PHP-Indenting-for-VIm",
 		},
 	},
-
 	-- Inline Laravel/Symfony docs (helpful for Spryker's Symfony base)
 	{
 		"ccaglak/phptools.nvim",

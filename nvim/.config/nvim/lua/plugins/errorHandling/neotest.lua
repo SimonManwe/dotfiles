@@ -6,7 +6,7 @@ return {
 		"antoinemadec/FixCursorHold.nvim",
 		"nvim-treesitter/nvim-treesitter",
 		"nvim-neotest/neotest-jest",
-		"rouge8/neotest-rust",
+		"mrcjkb/rustaceanvim",
 		"olimorris/neotest-phpunit",
 	},
 	keys = {
@@ -107,9 +107,9 @@ return {
 			},
 		})
 
-		vim.api.nvim_set_hl(0, "NeotestPassed", { fg = "#a6e3a1" }) -- green
-		vim.api.nvim_set_hl(0, "NeotestFailed", { fg = "#f38ba8" }) -- red
-		vim.api.nvim_set_hl(0, "NeotestRunning", { fg = "#f9e2af" }) -- yellow
-		vim.api.nvim_set_hl(0, "NeotestSkipped", { fg = "#9399b2" }) -- gray
+		vim.api.nvim_set_hl(0, "NeotestPassed", { fg = "#a6e3a1" })
+		vim.api.nvim_set_hl(0, "NeotestFailed", { fg = "#f38ba8" })
+		vim.api.nvim_set_hl(0, "NeotestRunning", { fg = "#f9e2af" })
+		vim.api.nvim_set_hl(0, "NeotestSkipped", { fg = "#9399b2" })
 	end,
 }

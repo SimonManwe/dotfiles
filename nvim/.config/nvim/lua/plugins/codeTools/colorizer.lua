@@ -1,5 +1,5 @@
--- Shows color previews inline for CSS, hex codes, etc.
 return {
+	-- Shows color previews inline for CSS, hex codes, etc.
 	"NvChad/nvim-colorizer.lua",
 	event = { "BufReadPre", "BufNewFile" },
 	opts = {
