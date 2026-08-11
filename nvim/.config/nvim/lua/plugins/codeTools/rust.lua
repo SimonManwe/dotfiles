@@ -1,19 +1,28 @@
 return {
 	"mrcjkb/rustaceanvim",
-	-- This also sets up the rust lsp
-	-- To avoid being surprised by breaking changes,
-	-- I recommend you set a version range
 	version = "^9",
-	-- This plugin implements proper lazy-loading (see :h lua-plugin-lazy).
-	-- No need for lazy.nvim to lazy-load it.
 	lazy = false,
-	["rust-analyzer"] = {
-		cargo = {
-			allFeatures = true,
-		},
-	},
 
 	config = function()
+		local mason_registry = require("mason-registry")
+		local codelldb_adapter = mason_registry.get_package("codelldb"):get_install_path() .. "/extension/"
+		local codelldb_path = codelldb_adapter .. "adapter/codelldb"
+		local liblldb_path = codelldb_adapter .. "lldb/lib/liblldb.so"
+		vim.g.rustaceanvim = {
+			server = {
+				settings = {
+					["rust-analyzer"] = {
+						cargo = {
+							allFeatures = true,
+						},
+					},
+				},
+			},
+			dap = {
+				adapter = require("rustaceanvim.config").get_codelldb_adapter(codelldb_path, liblldb_path),
+			},
+		}
+
 		vim.keymap.set("n", "<space>rha", function()
 			vim.cmd.RustLsp({ "hover", "actions" })
 		end, { desc = "[R]ustLsp [H]over [A]ctions" })
