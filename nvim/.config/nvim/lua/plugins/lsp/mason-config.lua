@@ -10,6 +10,7 @@ return {
 		opts = {},
 		dependencies = {
 			{ "mason-org/mason.nvim", opts = {} },
+			"jay-babu/mason-nvim-dap.nvim",
 			"neovim/nvim-lspconfig",
 		},
 		config = function()
@@ -26,6 +27,18 @@ return {
 					"bashls",
 				},
 				automatic_installation = true,
+			})
+
+			require("mason-nvim-dap").setup({
+				ensure_installed = { "codelldb", "php" },
+				automatic_installation = true,
+				handlers = {
+					function(config)
+						require("mason-nvim-dap").default_setup(config)
+					end,
+					-- registered in dap.adapters.php in dap.lua,
+					php = function() end,
+				},
 			})
 		end,
 	},
