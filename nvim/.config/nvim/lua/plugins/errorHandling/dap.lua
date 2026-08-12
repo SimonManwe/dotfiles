@@ -71,6 +71,7 @@ return {
 			args = { php_debug_path .. "/extension/out/phpDebug.js" },
 		}
 
+		-- Config specifically for Spryker
 		dap.configurations.php = {
 			{
 				name = "Listen for XDebug (Spryker)",
@@ -97,6 +98,56 @@ return {
 				runtimeExecutable = "php",
 			},
 		}
+
+		-- DAP Setup for Node/ NextJS
+		local js_debug_path = mason_registry.get_package("js-debug-adapter"):get_install_path()
+
+		dap.adapters["pwa-node"] = {
+			type = "server",
+			host = "localhost",
+			port = "${port}",
+			executable = {
+				command = "node",
+				args = { js_debug_path .. "/js-debug/src/dapDebugServer.js", "${port}" },
+			},
+		}
+		dap.adapters["pwa-chrome"] = dap.adapters["pwa-node"]
+
+		local configs = {
+			{
+				type = "pwa-node",
+				request = "attach",
+				name = "Next.js: Attach to server",
+				port = 9229,
+				cwd = "${workspaceFolder}",
+				sourceMaps = true,
+				skipFiles = { "<node_internals>/**", "**/node_modules/**" },
+				resolveSourceMapLocations = {
+					"${workspaceFolder}/**",
+					"!**/node_modules/**",
+				},
+				sourceMapPathOverrides = {
+					["turbopack://[project]/*"] = "${workspaceFolder}/*",
+					["webpack://_N_E/*"] = "${workspaceFolder}/*",
+					["webpack://[project]/*"] = "${workspaceFolder}/*",
+					["webpack:///./~/*"] = "${workspaceFolder}/node_modules/*",
+					["webpack://?:*/*"] = "${workspaceFolder}/*",
+				},
+			},
+			{
+				type = "pwa-chrome",
+				request = "launch",
+				name = "Next.js: Launch Chrome",
+				url = "http://localhost:3000",
+				webRoot = "${workspaceFolder}",
+				sourceMaps = false,
+			},
+		}
+
+		for _, lang in ipairs({ "javascript", "typescript", "javascriptreact", "typescriptreact" }) do
+			dap.configurations[lang] = dap.configurations[lang] or {}
+			vim.list_extend(dap.configurations[lang], configs)
+		end
 
 		local keymap = vim.keymap.set
 		keymap("n", "<F5>", dap.continue, { desc = "DAP Continue" })
