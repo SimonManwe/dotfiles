@@ -4,6 +4,7 @@ return {
 		"saghen/blink.lib",
 		-- optional: provides snippets for the snippet source
 		"rafamadriz/friendly-snippets",
+		"L3MON4D3/LuaSnip",
 	},
 	build = function()
 		-- build the fuzzy matcher, optionally add a timeout to `pwait(timeout_ms)`
@@ -14,7 +15,6 @@ return {
 	---@module 'blink.cmp'
 	---@type blink.cmp.Config
 	opts = {
-
 		keymap = {
 			preset = "default",
 			["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
@@ -24,6 +24,10 @@ return {
 			["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
 			["<C-e>"] = { "hide", "fallback" },
 			["<CR>"] = { "accept", "fallback" },
+		},
+
+		snippets = {
+			preset = "luasnip",
 		},
 
 		completion = {
