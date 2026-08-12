@@ -96,8 +96,6 @@ return {
 			-- Keymaps
 			local builtin = require("telescope.builtin")
 
-			vim.keymap.set("n", "<leader>?", builtin.oldfiles, { desc = "[?] Recently opened files" })
-			vim.keymap.set("n", "<leader><space>", builtin.buffers, { desc = "[ ] Find buffers" })
 			vim.keymap.set("n", "<leader>/", function()
 				builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
 					winblend = 10,
@@ -105,20 +103,26 @@ return {
 				}))
 			end, { desc = "Fuzzy search current buffer" })
 
-			local function telescope_live_grep_open_files()
-				builtin.live_grep({
-					grep_open_files = true,
-					prompt_title = "Live Grep in Open Files",
-				})
-			end
+			-- unused right now because of Snacks.nvim
+			-- local function telescope_live_grep_open_files()
+			-- 	builtin.live_grep({
+			-- 		grep_open_files = true,
+			-- 		prompt_title = "Live Grep in Open Files",
+			-- 	})
+			-- end
+			--
+			-- local function telescope_find_hidden_and_ignored()
+			-- 	builtin.find_files({
+			-- 		hidden = true,
+			-- 		no_ignore = true,
+			-- 		no_ignore_parent = true,
+			-- 	})
+			-- end
 
-			local function telescope_find_hidden_and_ignored()
-				builtin.find_files({
-					hidden = true,
-					no_ignore = true,
-					no_ignore_parent = true,
-				})
-			end
+			-- Done by Snacks.nvim for now
+			-- vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
+			-- vim.keymap.set("n", "<leader>sG", ":LiveGrepGitRoot<cr>", { desc = "[G]rep Git Root" })
+			-- vim.keymap.set("n", "<leader>sf", telescope_find_hidden_and_ignored, { desc = "[S]earch [F]iles" })
 
 			local function telescope_live_grep_all()
 				builtin.live_grep({
@@ -137,14 +141,6 @@ return {
 				})
 			end
 
-			vim.keymap.set("n", "<leader>s/", telescope_live_grep_open_files, { desc = "[S]earch [/] Open Files" })
-			vim.keymap.set("n", "<leader>ss", builtin.builtin, { desc = "[S]elect Telescope" })
-			vim.keymap.set("n", "<leader>gf", builtin.git_files, { desc = "[G]it [F]iles" })
-			vim.keymap.set("n", "<leader>sf", telescope_find_hidden_and_ignored, { desc = "[S]earch [F]iles" })
-			vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
-			vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch current [W]ord" })
-			vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
-			vim.keymap.set("n", "<leader>sG", ":LiveGrepGitRoot<cr>", { desc = "[G]rep Git Root" })
 			vim.keymap.set(
 				"n",
 				"<leader>sAG",
@@ -157,7 +153,6 @@ return {
 				telescope_find_files_all,
 				{ desc = "[S]earch [A]ll files (incl. vendor/node_modules)" }
 			)
-			vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
 			vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
 		end,
 	},
