@@ -8,6 +8,7 @@ PACKAGES=(
 	tmux
 	yazi
 	ssh
+	phpactor
 )
 
 echo "Setting up dotfiles..."
