@@ -1,0 +1,176 @@
+@define-color bg           rgba(20, 20, 28, 0.9);
+@define-color bg-alt       rgba(30, 30, 40, 0.9);
+@define-color border-color rgba(0, 230, 220, 0.5); /* cyan neon */
+@define-color accent       #00e6dc; /* cyan neon */
+@define-color accent-alt   #ff2e88; /* magenta neon, critical/dnd */
+@define-color text-color   #e8e8f0;
+@define-color text-dim     #9a9aa8;
+
+* {
+  font-family: "JetBrainsMono Nerd Font", "Fira Sans", sans-serif;
+  font-size: 13px;
+  transition: 200ms ease;
+}
+
+/* Floating notification popups */
+.notification-row {
+  outline: none;
+  margin: 6px 10px;
+}
+
+.notification {
+  background: @bg;
+  border-radius: 14px;
+  border: 1px solid @border-color;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  padding: 4px;
+}
+
+.notification-content {
+  background: transparent;
+  padding: 8px;
+}
+
+.notification-default-action,
+.notification-action {
+  border-radius: 10px;
+}
+
+.notification-default-action:hover,
+.notification-action:hover {
+  background: rgba(0, 230, 220, 0.15);
+}
+
+.close-button {
+  background: rgba(255, 46, 136, 0.15);
+  color: @text-color;
+  border-radius: 999px;
+  padding: 2px;
+  margin: 4px;
+}
+
+.close-button:hover {
+  background: @accent-alt;
+  color: #14141c;
+}
+
+.notification-icon {
+  margin-right: 8px;
+}
+
+.summary {
+  color: @text-color;
+  font-weight: 600;
+}
+
+.time {
+  color: @text-dim;
+  font-size: 11px;
+}
+
+.body {
+  color: @text-dim;
+}
+
+/* Critical notifications */
+.critical {
+  border: 1px solid @accent-alt;
+  background: rgba(40, 15, 25, 0.9);
+}
+
+/* Progress bar (e.g. volume/brightness) */
+.notification-progress-bar {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+}
+
+.notification-progress-bar progress {
+  background: @accent;
+  border-radius: 999px;
+}
+
+/* Control Center */
+.control-center {
+  background: @bg-alt;
+  border-radius: 16px;
+  border: 1px solid @border-color;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  margin: 10px;
+}
+
+.control-center-list {
+  background: transparent;
+}
+
+.control-center-list-placeholder {
+  color: @text-dim;
+}
+
+/* Widgets */
+.widget-title {
+  color: @text-color;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 10px;
+}
+
+.widget-title > button {
+  background: rgba(0, 230, 220, 0.12);
+  color: @accent;
+  border-radius: 10px;
+  padding: 4px 10px;
+}
+
+.widget-title > button:hover {
+  background: @accent;
+  color: #14141c;
+}
+
+.widget-dnd {
+  color: @text-color;
+  padding: 8px 10px;
+}
+
+.widget-dnd > switch {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+}
+
+.widget-dnd > switch:checked {
+  background: @accent;
+}
+
+.widget-dnd > switch slider {
+  background: @text-color;
+  border-radius: 999px;
+}
+
+.widget-mpris {
+  background: @bg;
+  border-radius: 12px;
+  margin: 6px;
+  padding: 8px;
+}
+
+.widget-mpris-album-art {
+  border-radius: 10px;
+}
+
+.widget-mpris-title {
+  color: @text-color;
+  font-weight: 600;
+}
+
+.widget-mpris-subtitle {
+  color: @text-dim;
+}
+
+/* Scrollbar */
+scrollbar {
+  background: transparent;
+}
+
+scrollbar slider {
+  background: rgba(0, 230, 220, 0.4);
+  border-radius: 999px;
+}
