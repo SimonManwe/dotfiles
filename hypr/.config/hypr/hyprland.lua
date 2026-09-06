@@ -33,7 +33,7 @@ local fileManager      = "ghostty -e yazi"
 local bluetoothManager = "ghostty -e bluetui"
 local launcher         = "rofi -show drun -show-icons"
 local runner           = "rofi -show run"
-local browser          = "firefox"
+local browser          = "zen-twilight" -- change for regular zen for more stable setup
 local music            = "spotify"
 
 
