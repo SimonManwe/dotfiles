@@ -8,7 +8,6 @@ alias runhorst='sudo chmod 666 /var/run/docker.sock && cd ~/projects/spryker/ &&
 alias sniffDiff='cd ~/projects/spryker/ && git diff --diff-filter=ACM --name-only development $(git rev-parse --abbrev-ref HEAD) -- src | xargs docker/sdk cli vendor/bin/phpcs'
 alias phpFixDiff='cd ~/projects/spryker/ && git diff --diff-filter=ACM --name-only development $(git rev-parse --abbrev-ref HEAD) -- src | xargs docker/sdk cli vendor/bin/phpcbf'
 alias sniffAll='cd ~/projects/spryker/ && docker/sdk console code:sniff:style src/Pyz && docker/sdk console code:sniff:style tests/PyzTest'
-alias switchEnv='~/projects/personal/scripts/utils/next/useEnv.sh'
 
 # Seg VPN
 alias vpn-connect='~/.config/vpn/connect.sh'
