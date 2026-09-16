@@ -42,5 +42,10 @@ return {
 				end)
 			end,
 		})
+
+		-- Toggle bufferline/tabline visibility
+		vim.keymap.set("n", "<leader>bt", function()
+			vim.o.showtabline = vim.o.showtabline == 0 and 2 or 0
+		end, { desc = "Toggle bufferline" })
 	end,
 }

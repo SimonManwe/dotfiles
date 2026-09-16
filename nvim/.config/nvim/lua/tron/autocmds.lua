@@ -24,3 +24,11 @@ vim.api.nvim_create_autocmd("FileType", {
 		end, { buffer = bufnr, desc = "PHP: Insert DocBlock above" })
 	end,
 })
+
+-- remove tabline when solving conflicts
+vim.api.nvim_create_autocmd({ "OptionSet" }, {
+	pattern = "diff",
+	callback = function()
+		vim.o.showtabline = vim.v.option_new == "1" and 0 or 2
+	end,
+})
