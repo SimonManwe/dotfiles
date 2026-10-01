@@ -21,36 +21,35 @@ return {
 
 			nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
 			nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
-			-- Done by Snacks.nvim for now
-			-- nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-			-- nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
-			-- nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
-			-- nmap("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
-			-- nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
-			-- nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
-			-- nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 			nmap("K", vim.lsp.buf.hover, "Hover Documentation")
 			nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
 		end
 
-		-- Auto-attach keybindings when LSP attaches
+		vim.keymap.set("n", "<leader>th", function()
+			vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+		end, { desc = "Toggle inlay hints" })
+
 		vim.api.nvim_create_autocmd("LspAttach", {
 			group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-			callback = on_attach,
-		})
+			callback = function(args)
+				on_attach(args)
 
-		-- Document highlighting
-		vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-			group = vim.api.nvim_create_augroup("LspDocumentHighlight", {}),
-			callback = function()
-				vim.lsp.buf.document_highlight()
-			end,
-		})
+				local client = vim.lsp.get_client_by_id(args.data.client_id)
+				if client and client:supports_method("textDocument/documentHighlight") then
+					local group = vim.api.nvim_create_augroup("LspDocumentHighlight_" .. args.buf, { clear = true })
 
-		vim.api.nvim_create_autocmd("CursorMoved", {
-			group = vim.api.nvim_create_augroup("LspDocumentHighlight", {}),
-			callback = function()
-				vim.lsp.buf.clear_references()
+					vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+						group = group,
+						buffer = args.buf,
+						callback = vim.lsp.buf.document_highlight,
+					})
+
+					vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+						group = group,
+						buffer = args.buf,
+						callback = vim.lsp.buf.clear_references,
+					})
+				end
 			end,
 		})
 
@@ -63,7 +62,7 @@ return {
 			},
 		})
 
-		vim.lsp.enable("ts_ls", {
+		vim.lsp.config("ts_ls", {
 			capabilities = capabilities,
 			settings = {
 				typescript = {
@@ -75,26 +74,42 @@ return {
 				},
 			},
 		})
+		vim.lsp.enable("ts_ls")
 
-		vim.lsp.enable("html", {
+		vim.lsp.config("html", {
 			capabilities = capabilities,
 		})
+		vim.lsp.enable("html")
 
-		vim.lsp.enable("rust_analyzer", {
+		-- Handled by rustacean.nvim
+		-- vim.lsp.config("rust_analyzer", {
+		-- 	capabilities = capabilities,
+		-- 	settings = {
+		-- 		["rust_analyzer"] = {
+		-- 			check = {
+		-- 				command = "clippy",
+		-- 			},
+		-- 			cargo = {
+		-- 				allFeatures = true,
+		-- 			},
+		-- 		},
+		-- 	},
+		-- })
+		-- vim.lsp.enable("rust_analyzer")
+		vim.lsp.config("clangd", {
 			capabilities = capabilities,
-			settings = {
-				["rust-analyzer"] = {
-					check = {
-						command = "clippy",
-					},
-					cargo = {
-						allFeatures = true,
-					},
-				},
+			cmd = {
+				"clangd",
+				"--background-index",
+				"--clang-tidy",
+				"--header-insertion=iwyu",
+				"--completion-style=detailed",
 			},
 		})
 
-		vim.lsp.enable("lua_ls", {
+		vim.lsp.enable("clangd")
+
+		vim.lsp.config("lua_ls", {
 			capabilities = capabilities,
 			settings = {
 				Lua = {
@@ -111,8 +126,9 @@ return {
 				},
 			},
 		})
+		vim.lsp.enable("lua_ls")
 
-		vim.lsp.enable("intelephense", {
+		vim.lsp.config("intelephense", {
 			capabilities = capabilities,
 			settings = {
 				intelephense = {
@@ -193,8 +209,9 @@ return {
 				},
 			},
 		})
+		vim.lsp.enable("intelephense")
 
-		vim.lsp.enable("cssls", {
+		vim.lsp.config("cssls", {
 			capabilities = capabilities,
 			settings = {
 				css = {
@@ -214,8 +231,9 @@ return {
 				},
 			},
 		})
+		vim.lsp.enable("cssls")
 
-		vim.lsp.enable("tailwindcss", {
+		vim.lsp.config("tailwindcss", {
 			capabilities = capabilities,
 			filetypes = {
 				"html",
@@ -239,13 +257,16 @@ return {
 					},
 				},
 			},
-			root_dir = function(fname)
-				local util = require("lspconfig.util")
-				return util.root_pattern("tailwind.config.js", "tailwind.config.ts", "postcss.config.js")(fname)
-					or util.find_package_json_ancestor(fname)
-					or util.find_node_modules_ancestor(fname)
+			root_dir = function(bufnr, on_dir)
+				local root = vim.fs.root(bufnr, { "tsconfig.json", "jsconfig.json" })
+					or vim.fs.root(bufnr, "package.json")
+					or vim.fs.root(bufnr, "node_modules")
+				if root then
+					on_dir(root)
+				end
 			end,
 		})
+		vim.lsp.enable("tailwindcss")
 
 		-- Large file handling - disable LSP for files > 1MB
 		vim.api.nvim_create_autocmd("BufReadPre", {
