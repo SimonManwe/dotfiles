@@ -10,7 +10,7 @@ return {
 	config = function()
 		require("barbar").setup({
 			animation = false,
-			tabpages = true,
+			tabpages = false,
 			clickable = true,
 			auto_hide = 1,
 			exclude_ft = { "DiffviewFiles", "DiffviewFileHistory" },

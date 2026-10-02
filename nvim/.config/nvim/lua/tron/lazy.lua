@@ -28,7 +28,7 @@ require("lazy").setup({
 		-- { import = "plugins" },
 		{ import = "plugins.lsp" },
 		{ import = "plugins.util" },
-		{ import = "plugins.colorscheme" },
+		{ import = "plugins.ui_elements" },
 		{ import = "plugins.errorHandling" },
 		{ import = "plugins.tools" },
 		{ import = "plugins.php" },
