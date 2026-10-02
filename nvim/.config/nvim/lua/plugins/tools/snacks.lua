@@ -8,7 +8,8 @@ return {
 	---@type snacks.Config
 	opts = {
 		input = { enabled = true },
-		indent = { enabled = true, animate = { enabled = false } },
+		-- Handled by blink-indent
+		-- indent = { enabled = true, animate = { enabled = false } },
 		lazygit = { enabled = true },
 		picker = {
 			enabled = true,
