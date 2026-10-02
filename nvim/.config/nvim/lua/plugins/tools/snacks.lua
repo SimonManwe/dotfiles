@@ -153,7 +153,7 @@ return {
 		-- Lazygit
 		---@param opts? snacks.lazygit.Config
 		{
-			"lg",
+			"<leader>lg",
 			function()
 				Snacks.lazygit.open()
 			end,
