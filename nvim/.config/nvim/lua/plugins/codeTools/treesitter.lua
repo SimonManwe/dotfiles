@@ -19,6 +19,8 @@ return {
 			"xml",
 			"yaml",
 			"regex",
+			"markdown",
+			"markdown_inline",
 			"typescript",
 			"html",
 			"css",
