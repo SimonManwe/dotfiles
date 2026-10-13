@@ -113,3 +113,7 @@ eval "$(zoxide init zsh)"
 export PATH=$HOME/.local/bin:$PATH
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+. "$HOME/.atuin/bin/env"
+
+eval "$(atuin init zsh --disable-up-arrow)"
