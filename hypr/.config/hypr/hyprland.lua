@@ -33,7 +33,8 @@ local fileManager      = "ghostty -e yazi"
 local bluetoothManager = "ghostty -e bluetui"
 local launcher         = "rofi -show drun -show-icons"
 local runner           = "rofi -show run"
-local browser          = "zen-twilight" -- change for regular zen for more stable setup
+-- change for regular zen for more stable setup
+local browser          = "~/.tarball-installations/zen-twilight/zen"
 local music            = "spotify"
 
 
@@ -285,6 +286,7 @@ hl.bind(mainMod .. " + left", hl.dsp.focus({ direction = "left" }))
 hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. " + up", hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + down", hl.dsp.focus({ direction = "down" }))
+hl.bind(mainMod .. " + Z", hl.dsp.window.fullscreen({ mode = "maximized" }))
 
 -- Move around windows mainMod + arrow keys
 hl.bind(secondaryMod .. " + left", hl.dsp.window.move({ direction = "left" }))
@@ -293,7 +295,6 @@ hl.bind(secondaryMod .. " + up", hl.dsp.window.move({ direction = "up" }))
 hl.bind(secondaryMod .. " + down", hl.dsp.window.move({ direction = "down" }))
 
 hl.bind(secondaryMod .. " + T", hl.dsp.window.float({ action = "toggle" }))
-hl.bind(secondaryMod .. " + F", hl.dsp.window.fullscreen({ mode = "maximized" }))
 
 -- Switch workspaces with mainMod + [0-9]
 -- Move active window to a workspace with mainMod + SHIFT + [0-9]
