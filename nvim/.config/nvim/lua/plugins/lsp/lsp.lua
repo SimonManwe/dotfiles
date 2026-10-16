@@ -10,7 +10,6 @@ return {
 		-- Get completion capabilities from blink.cmp
 		local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-		-- Keybindings for LSP using Telescope
 		local on_attach = function(_, bufnr)
 			local nmap = function(keys, func, desc)
 				if desc then
@@ -96,6 +95,7 @@ return {
 		-- 	},
 		-- })
 		-- vim.lsp.enable("rust_analyzer")
+
 		vim.lsp.config("clangd", {
 			capabilities = capabilities,
 			cmd = {
@@ -106,8 +106,12 @@ return {
 				"--completion-style=detailed",
 			},
 		})
-
 		vim.lsp.enable("clangd")
+
+		vim.lsp.config("neocmake", {
+			capabilities = capabilities,
+		})
+		vim.lsp.enable("neocmake")
 
 		vim.lsp.config("lua_ls", {
 			capabilities = capabilities,
