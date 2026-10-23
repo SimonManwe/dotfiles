@@ -1,0 +1,44 @@
+[metadata]
+name = "gitlab-mrs"
+description = "Open GitLab MRs (assigned to me or awaiting my review)"
+requirements = ["glab", "jq", "tuicr"]
+
+[source]
+command = '''
+glab api --hostname gitlab.segmueller.de "merge_requests?scope=all&state=opened&per_page=100" \
+  | jq -r '.[] | "\(.web_url)\t\(.references.full) \(.title)"'
+'''
+display = "{split:\t:1}"
+output  = "{split:\t:0}"
+
+[preview]
+command = '''
+ref=$(printf '%s' '{}' | grep -oE '[^[:space:]]+![0-9]+' | head -1)
+proj=$(printf '%s' "$ref" | cut -d'!' -f1 | sed 's|/|%2F|g')
+iid=$(printf '%s' "$ref" | cut -d'!' -f2)
+glab api --hostname gitlab.segmueller.de "projects/$proj/merge_requests/$iid" | jq -r '
+  if .message then "API error: \(.message)" else
+  "# \(.title)\n\(.author.username) · \(.source_branch) → \(.target_branch) · \(.state)\(if .draft then " · DRAFT" else "" end)\npipeline: \(.head_pipeline.status // "none") · merge status: \(.detailed_merge_status)\n\n\(.description)"
+  end'
+'''
+
+[keybindings]
+enter = "actions:review"
+
+[actions.review]
+description = "Review the selected MR in tuicr (zoxide into the repo first)"
+mode = "execute"
+command = """
+url='{split:\t:0}'
+project=$(printf '%s' "$url" | sed -E 's|^https?://[^/]+/||; s|/-/merge_requests/.*||')
+name=$(basename "$project")
+parent=$(basename "$(dirname "$project")")
+dir=$(zoxide query "$parent" "$name" 2>/dev/null || zoxide query "$name" 2>/dev/null)
+if [ -n "$dir" ]; then
+  cd "$dir"
+else
+  echo "zoxide: no directory found for $project, opening without a checkout" >&2
+  sleep 1
+fi
+exec tuicr mr "$url"
+"""
