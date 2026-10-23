@@ -117,3 +117,6 @@ export PATH=$HOME/.local/bin:$PATH
 . "$HOME/.atuin/bin/env"
 
 eval "$(atuin init zsh --disable-up-arrow)"
+
+# opencode
+export PATH=/home/user/.opencode/bin:$PATH
