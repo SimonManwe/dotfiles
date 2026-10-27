@@ -1,88 +1,48 @@
+-- Messages to silently drop (matched against msg_show)
+local skip_patterns = {
+	"yank",
+	"put",
+	"more lines",
+	"fewer lines",
+	"written",
+	"search hit BOTTOM",
+	"search hit TOP",
+}
+
+local routes = {
+	-- search count ([1/5]) has its own kind
+	{ filter = { event = "msg_show", kind = "search_count" }, opts = { skip = true } },
+}
+
+for _, pattern in ipairs(skip_patterns) do
+	table.insert(routes, {
+		filter = { event = "msg_show", find = pattern },
+		opts = { skip = true },
+	})
+end
+
 return {
 	"folke/noice.nvim",
 	event = "VeryLazy",
 	dependencies = {
 		"MunifTanjim/nui.nvim",
-		"rcarriga/nvim-notify",
+		-- "rcarriga/nvim-notify" removed; snacks.notifier handles notifications now
 	},
 	opts = {
+		notify = { enabled = false },
 		lsp = {
-			-- override markdown rendering so that completion docs and other plugins use Treesitter
 			override = {
 				["vim.lsp.util.convert_input_to_markdown_lines"] = true,
 				["vim.lsp.util.stylize_markdown"] = true,
 			},
 		},
 		presets = {
-			bottom_search = false, -- keep classic bottom cmdline for live search
-			command_palette = true, -- position cmdline + popupmenu together (floating)
-			long_message_to_split = true, -- long messages go to a split, not a big popup
-			inc_rename = false,  -- only relevant for inc-rename.nvim
-			lsp_doc_border = false, -- no border on hover/signature popups
+			bottom_search = false,
+			command_palette = true,
+			long_message_to_split = true,
+			inc_rename = false,
+			lsp_doc_border = false,
 		},
-		-- Supress common messages without value
-		routes = {
-			{
-				filter = {
-					event = "msg_show",
-					kind = "",
-					find = "yank",
-				},
-				opts = { skip = true },
-			},
-			{
-				filter = {
-					event = "msg_show",
-					kind = "",
-					find = "put",
-				},
-				opts = { skip = true },
-			},
-			{
-				filter = {
-					event = "msg_show",
-					kind = "",
-					find = "more lines",
-				},
-				opts = { skip = true },
-			},
-			{
-				filter = {
-					event = "msg_show",
-					kind = "",
-					find = "fewer lines",
-				},
-				opts = { skip = true },
-			},
-			{
-				filter = {
-					event = "msg_show",
-					kind = "",
-					find = "written",
-				},
-				opts = { skip = true },
-			},
-			{
-				filter = {
-					event = "msg_show",
-					kind = "search_count",
-				},
-				opts = { skip = true },
-			},
-			{
-				filter = {
-					event = "msg_show",
-					find = "search hit BOTTOM",
-				},
-				opts = { skip = true },
-			},
-			{
-				filter = {
-					event = "msg_show",
-					find = "search hit TOP",
-				},
-				opts = { skip = true },
-			},
-		},
+		routes = routes,
 	},
 }

@@ -8,8 +8,15 @@ return {
 	---@type snacks.Config
 	opts = {
 		input = { enabled = true },
-		-- Handled by blink-indent
-		-- indent = { enabled = true, animate = { enabled = false } },
+		bigfile = { enabled = true },
+		quickfile = { enabled = true },
+		dashboard = { enabled = true },
+		image = { enabled = true },
+		notifier = {
+			enabled = true,
+			timeout = 3000,
+			style = "compact",
+		},
 		lazygit = { enabled = true },
 		picker = {
 			enabled = true,
@@ -69,13 +76,6 @@ return {
 				Snacks.picker.git_log()
 			end,
 			desc = "Git Log",
-		},
-		{
-			"<leader>sn",
-			function()
-				Snacks.picker.notifications()
-			end,
-			desc = "Notification History",
 		},
 		-- git
 		{
@@ -166,6 +166,21 @@ return {
 				Snacks.bufdelete()
 			end,
 			desc = "Delete Buffer",
+		},
+		-- Notifier
+		{
+			"<leader>Nn",
+			function()
+				Snacks.notifier.show_history()
+			end,
+			desc = "Notification history",
+		},
+		{
+			"<leader>NN",
+			function()
+				Snacks.picker.notifications()
+			end,
+			desc = "Notifications (picker)",
 		},
 	},
 }
