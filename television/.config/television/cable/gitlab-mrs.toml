@@ -1,13 +1,10 @@
 [metadata]
 name = "gitlab-mrs"
-description = "Open GitLab MRs (assigned to me or awaiting my review)"
+description = "All open GitLab MRs, pick one to review"
 requirements = ["glab", "jq", "tuicr"]
 
 [source]
-command = '''
-glab api --hostname gitlab.segmueller.de "merge_requests?scope=all&state=opened&per_page=100" \
-  | jq -r '.[] | "\(.web_url)\t\(.references.full) \(.title)"'
-'''
+command = '"$HOME/.config/television/utils/gitlab-open-mrs"'
 display = "{split:\t:1}"
 output  = "{split:\t:0}"
 

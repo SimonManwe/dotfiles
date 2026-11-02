@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+# Lists all open MRs visible to the current user as "<web_url>\t<full_ref> <title>".
+# Uses GraphQL per top-level group so only the needed fields are fetched; the REST
+# merge_requests endpoint returns full descriptions and gets cut off by the server
+# once responses grow past ~480 KB.
+set -euo pipefail
+
+HOST="${GITLAB_HOST:-gitlab.segmueller.de}"
+
+# shellcheck disable=SC2016 # $endCursor is a GraphQL variable, not a shell one
+QUERY='query($fullPath: ID!, $endCursor: String) {
+  group(fullPath: $fullPath) {
+    mergeRequests(state: opened, includeSubgroups: true, first: 100, after: $endCursor) {
+      nodes { webUrl reference(full: true) title }
+      pageInfo { hasNextPage endCursor }
+    }
+  }
+}'
+
+list_top_level_groups() {
+	glab api --hostname "$HOST" --paginate "groups?top_level_only=true&per_page=100" |
+		jq -r '.[].full_path'
+}
+
+list_group_mrs() {
+	glab api graphql --hostname "$HOST" --paginate \
+		-f query="$QUERY" -F fullPath="$1" |
+		jq -r '
+        if .errors then error("GraphQL: \(.errors | map(.message) | join("; "))") else . end
+        | .data.group.mergeRequests.nodes[]
+        | "\(.webUrl)\t\(.reference) \(.title)"'
+}
+
+main() {
+	local tmp group pid failed=0
+	local -a pids=()
+	tmp=$(mktemp -d)
+	trap "rm -rf '$tmp'" EXIT
+
+	while IFS= read -r group; do
+		list_group_mrs "$group" >"$tmp/${group//\//_}.out" &
+		pids+=("$!")
+	done < <(list_top_level_groups)
+
+	for pid in "${pids[@]}"; do
+		wait "$pid" || failed=1
+	done
+
+	cat "$tmp"/*.out 2>/dev/null || true
+
+	if ((failed)); then
+		echo "gitlab-open-mrs: at least one group query failed, list may be incomplete" >&2
+		exit 1
+	fi
+}
+
+main "$@"
