@@ -65,6 +65,28 @@ Global rules for opencode.
 - Work: GitLab (merge requests, CI/CD pipelines). Personal: GitHub (pull requests, GitHub Actions).
 - Day-to-day via lazygit; CLI commands or lazygit shortcuts are both fine.
 
+## Decision Records (ADR-style)
+
+- Record Architecture Decision Records for decisions that are architectural, add/remove a
+  dependency, or are costly to reverse. Skip trivial/local choices (naming, small refactors).
+- Ask first; write the entry with status `Proposed`, set `Accepted` once I confirm.
+- Location: `docs/<TICKET>-decisions.md` in the project root (e.g. `docs/SHOP-1234-decisions.md`).
+  No ticket (personal projects)? Use a short kebab-case task slug. Create `docs/` if missing.
+- One file per ticket/task; append entries, numbered sequentially within the file.
+- Entry format:
+  ### <TICKET>-<NN>: <Short title>
+  - **Date:** YYYY-MM-DD
+  - **Status:** Proposed | Accepted | Superseded by <ID> | Deprecated
+  - **Context:** problem and constraints
+  - **Decision drivers:** criteria that matter (e.g. performance, compliance, maintainability)
+  - **Options:** considered alternatives with pros/cons
+  - **Decision:** what was chosen and why
+  - **Consequences:** trade-offs, follow-ups, risks
+- Never rewrite accepted entries; only the Status line may change. Supersede with a new entry
+  and link both ways by ID.
+- Before proposing architecture changes, check `docs/*-decisions.md` for prior decisions and
+  respect or explicitly challenge them.
+
 ## Tech Stack
 
 ### Work
