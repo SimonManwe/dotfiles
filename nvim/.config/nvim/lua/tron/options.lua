@@ -16,6 +16,7 @@ vim.opt.signcolumn = "yes" -- Always show sign column (no jumping)
 vim.opt.splitright = true -- Open vertical splits right
 vim.opt.splitbelow = true -- Open horizontal splits below
 vim.opt.termguicolors = true -- True color support
+vim.opt.swapfile = false
 -- Scrolloffset
 vim.opt.scrolloff = 4
 vim.opt.sidescrolloff = 6
