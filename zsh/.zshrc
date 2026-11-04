@@ -1,122 +1,28 @@
-#
-# If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
-
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
-# Cargo (Rust) binaries
-export PATH="$HOME/.cargo/bin:$PATH"
+# Omit theme as starship is used
+ZSH_THEME=""
 
-# Go binaries
-export PATH="$HOME/go/bin:$PATH"
-#
-# path to composer
-if [[ -d ~/.config/composer/vendor/bin ]]; then
-	export PATH="$HOME/.config/composer/vendor/bin:$PATH"
-fi
-
-ZSH_THEME="robbyrussell"
-
-export TERM=xterm-256color
-
-plugins=(git zsh-syntax-highlighting zsh-autosuggestions fzf)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
+for f in ${XDG_CONFIG_HOME:-$HOME/.config}/zsh/*.zsh(N); do
+  source "$f"
+done
 
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-   export EDITOR='vim'
- else
-   export EDITOR='nvim'
-fi
 # source fzf keybindings
-# fzf fallback if OMZ plugin didn't catch it
-if ! type _fzf_complete > /dev/null 2>&1; then
-    for f in /usr/share/fzf/key-bindings.zsh \
-              /usr/share/doc/fzf/examples/key-bindings.zsh; do
-        [[ -f $f ]] && source $f && break
-    done
-    for f in /usr/share/fzf/completion.zsh \
-              /usr/share/doc/fzf/examples/completion.zsh; do
-        [[ -f $f ]] && source $f && break
-    done
-fi
+command -v fzf &> /dev/null && source <(fzf --zsh)   # needs fzf ≥ 0.48
 
-# ---- fd / fzf integration (cross-distro: Arch ships `fd`, Debian/Ubuntu may ship `fdfind`) ----
-if command -v fd &> /dev/null; then
-  FD_CMD="fd"
-elif command -v fdfind &> /dev/null; then
-  FD_CMD="fdfind"
-fi
+# node version manager but fast
+command -v fnm &> /dev/null && eval "$(fnm env --use-on-cd --version-file-strategy=recursive --shell zsh)"
 
-if [[ -n $FD_CMD ]]; then
-  export FZF_DEFAULT_COMMAND="$FD_CMD --hidden --strip-cwd-prefix --exclude .git"
-  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-  export FZF_ALT_C_COMMAND="$FD_CMD --type=d --hidden --strip-cwd-prefix --exclude .git"
+# Init Starship
+command -v starship &> /dev/null && eval "$(starship init zsh)"
 
-  _fzf_compgen_path() {
-    $FD_CMD --hidden --exclude .git . "$1"
-  }
+# Init Zoxide
+command -v zoxide   &> /dev/null && eval "$(zoxide init zsh)"
 
-  _fzf_compgen_dir() {
-    $FD_CMD --type=d --hidden --exclude .git . "$1"
-  }
-fi
-
-# bat may be `bat` or `batcat` depending on the distro/version
-if command -v bat &> /dev/null; then
-  BAT_CMD="bat"
-elif command -v batcat &> /dev/null; then
-  BAT_CMD="batcat"
-fi
-
-if [[ -n $BAT_CMD ]] && command -v eza &> /dev/null; then
-  show_file_or_dir_preview="if [ -d {} ]; then eza --tree --color=always {} | head -200; else $BAT_CMD -n --color=always --line-range :500 {}; fi"
-  export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
-  export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
-fi
-
-
-# Load aliases
-if [ -f ~/.zsh_aliases ]; then
-    source ~/.zsh_aliases
-fi
-#
-# Yazi shell wrapper - allows cd on quit
-function y() {
-	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
-	yazi "$@" --cwd-file="$tmp"
-	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-		builtin cd -- "$cwd"
-	fi
-	rm -f -- "$tmp"
-}
-
-# Hyperland ssh setup
-if [[ "$XDG_CURRENT_DESKTOP" == "Hyprland" ]]; then
-    export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
-fi
-
-# other shit
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-eval "$(zoxide init zsh)"
-export PATH=$HOME/.local/bin:$PATH
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-. "$HOME/.atuin/bin/env"
-
-eval "$(atuin init zsh --disable-up-arrow)"
-
-# opencode
-export PATH=/home/user/.opencode/bin:$PATH
+# Init Atuin
+command -v atuin    &> /dev/null && eval "$(atuin init zsh --disable-up-arrow)"
