@@ -10,9 +10,3 @@ alias phpFixDiff='cd ~/projects/spryker/ && git diff --diff-filter=ACM --name-on
 alias vpn-connect='~/.config/vpn/connect.sh'
 alias vpn-disconnect='~/.config/vpn/disconnect.sh'
 alias vpn-status='nmcli connection show --active | grep vpn || echo "VPN not connected"'
-
-# rust based git tui
-alias gt='gitui'
-
-# Jira
-alias jira="jiratui ui --search-on-startup --jql-expression-id 1"
