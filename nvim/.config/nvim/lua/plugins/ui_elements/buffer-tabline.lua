@@ -18,8 +18,8 @@ return {
 
 		vim.keymap.set("n", "<S-l>", "<Cmd>BufferNext<CR>")
 		vim.keymap.set("n", "<S-h>", "<Cmd>BufferPrevious<CR>")
-		vim.keymap.set("n", "<A-l>", "<Cmd>BufferMoveNext<CR>")
-		vim.keymap.set("n", "<A-h>", "<Cmd>BufferMovePrevious<CR>")
+		vim.keymap.set("n", "<A-.>", "<Cmd>BufferMoveNext<CR>")
+		vim.keymap.set("n", "<A-,>", "<Cmd>BufferMovePrevious<CR>")
 		vim.keymap.set("n", "<leader>bh", "<Cmd>BufferCloseBuffersLeft<CR>", { desc = "Close buffers to the left" })
 		vim.keymap.set("n", "<leader>bl", "<Cmd>BufferCloseBuffersRight<CR>", { desc = "Close buffers to the right" })
 		vim.keymap.set("n", "<leader>bp", "<Cmd>BufferPick<CR>")
