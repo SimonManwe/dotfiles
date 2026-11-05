@@ -21,7 +21,7 @@ return {
 			nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
 			nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 			nmap("K", vim.lsp.buf.hover, "Hover Documentation")
-			nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
+			nmap("<leader>lK", vim.lsp.buf.signature_help, "Signature Documentation")
 		end
 
 		vim.keymap.set("n", "<leader>th", function()
@@ -31,7 +31,7 @@ return {
 		vim.api.nvim_create_autocmd("LspAttach", {
 			group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 			callback = function(args)
-				on_attach(args)
+				on_attach(nil, args.buf)
 
 				local client = vim.lsp.get_client_by_id(args.data.client_id)
 				if client and client:supports_method("textDocument/documentHighlight") then
