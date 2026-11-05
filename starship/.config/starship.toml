@@ -12,7 +12,7 @@ style = "bold blue"
 truncation_length = 3
 truncation_symbol = '../'
 truncate_to_repo = true
-home_symbol = "~/"
+home_symbol = "~"
 read_only = " read only"
 
 [git_branch]
