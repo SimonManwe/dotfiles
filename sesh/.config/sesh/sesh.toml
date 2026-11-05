@@ -1,0 +1,23 @@
+#:schema https://github.com/joshmedeski/sesh/raw/main/sesh.schema.json
+blacklist = ["Floax-Scratch"]
+
+sort_order = ["tmux", "config", "zoxide"]
+cache = false
+
+[[session]]
+name = "Spryker"
+path = "~/projects/spryker"
+alias = "spry"
+windows = ["sdk"]
+
+[[window]]
+name = "sdk"
+startup_script = "docker/sdk up"
+
+[[session]]
+name = "Dotfiles"
+path = "~/projects/personal/dotfiles"
+
+[[session]]
+name = "NextJS"
+path = "~/projects/ssr-nextjs"
