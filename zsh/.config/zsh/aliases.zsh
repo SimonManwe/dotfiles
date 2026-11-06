@@ -3,7 +3,6 @@ alias ausMaus='shutdown -h now'
 alias lg='lazygit'
 
 # spyker & next
-alias runhorst='sudo chmod 666 /var/run/docker.sock && cd ~/projects/spryker/ && docker/sdk up'
 alias phpFixDiff='cd ~/projects/spryker/ && git diff --diff-filter=ACM --name-only development $(git rev-parse --abbrev-ref HEAD) -- src | xargs docker/sdk cli vendor/bin/phpcbf'
 
 # Seg VPN
