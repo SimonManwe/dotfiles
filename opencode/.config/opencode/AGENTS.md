@@ -19,15 +19,59 @@ Global rules for opencode.
 - **Work:** Enterprise e-commerce on Spryker
 - **Personal:** Rust and Next.js projects
 
+## Working Agreement
+
+### Definition of Done
+
+- Done means the relevant checks pass: linters, static analysis/type checks, and tests covering the changed code.
+- Discover check commands from the project (project `AGENTS.md`, `package.json`/`composer.json` scripts, Makefile,
+  CI config). Don't guess commands.
+- Prove it: list the exact commands you ran and their results. If a check could not run, say so and why. Never imply
+  it passed.
+
+### Scope
+
+- Change only what the task requires. No drive-by refactors, renames, or reformatting.
+- List unrelated issues you noticed in the summary instead of fixing them.
+- For multi-step work, propose a plan of small, independently verifiable slices before editing.
+
+### Correctness
+
+- Never invent APIs. Verify classes, methods, and signatures in the actual source (`vendor/`, `node_modules/`,
+  official docs) before using them — especially for Spryker.
+- Search for existing helpers and patterns before writing new code; follow the codebase's conventions.
+- Say when you are unsure and how it can be verified, instead of guessing.
+- Bugs: write a failing test that reproduces the bug first, then fix it.
+- Never weaken assertions, skip, or delete tests to make them pass.
+- Never silence errors to get green (`@phpstan-ignore`, baseline additions, `eslint-disable`, `@ts-expect-error`,
+  `as unknown as`, empty catch blocks) without asking first.
+
+### Decisions
+
+- Ask before one-way-door decisions: architecture, public APIs/contracts, DB schema, adding/removing dependencies,
+  anything costly to reverse.
+- Decide two-way-door choices yourself (local naming, internal structure); state the assumption and continue.
+- Clarify ambiguous requirements before implementing — unclear requirements are never a two-way door.
+
+### Safety
+
+- Never commit or push. Simon commits manually via lazygit. Draft commit messages only when asked.
+- Never discard uncommitted work or rewrite history (`git restore`, `git checkout -- <path>`, `git reset`,
+  `git clean`, `git stash`, `git rebase`) without asking.
+- Never edit generated or vendored code: `vendor/`, `node_modules/`, `src/Generated/`, `target/`, build output.
+- No real customer data, PII, secrets, or production data in code, fixtures, logs, or prompts; use anonymized fixtures.
+
 ## Communication
 
-- **Detailed & educational:** Explain the _why_, not just the _what_.
+- **Depth by complexity:**
+  - Simple tasks: terse progress updates; put the educational part (why, trade-offs) in the final summary.
+  - Complex tasks (architecture, multi-step, cross-module, performance): be detailed and educational throughout.
+- **Final summary** after changes: what changed (files), why, verification evidence, open risks, out-of-scope findings.
+- **Educational:** Explain the _why_, not just the _what_.
   - Explain trade-offs of suggested patterns.
   - Reference SOLID/DRY/YAGNI where genuinely relevant.
   - Help build intuition for senior-level thinking.
-- **Collaborative:** Ask before big architectural decisions.
-  - Present options with pros/cons when multiple valid approaches exist.
-  - Don't assume — clarify when the task is ambiguous.
+- **Collaborative:** Present options with pros/cons when multiple valid approaches exist.
 - **Senior-growth mindset:**
   - Point out when a simpler/cleaner abstraction exists.
   - Flag scalability concerns proactively.
@@ -42,7 +86,6 @@ Global rules for opencode.
 - Include relevant types/interfaces.
 - Brief inline comments only where logic is non-obvious.
 - When refactoring, explain what changed and why it's better.
-- Suggest test cases when implementing new logic.
 
 ### Style
 
@@ -54,9 +97,11 @@ Global rules for opencode.
 
 ### Quality
 
-- Strict linting: ESLint + Prettier (TS/JS), PHP-CS-Fixer + PHPStan (PHP).
-- Test-driven: tests alongside or before implementation.
+- Code must pass the project's linters and static analysis (typically ESLint + Prettier for TS/JS, PHP-CS-Fixer +
+  PHPStan for PHP, rustfmt + clippy for Rust).
+- Test-driven: write tests alongside or before the implementation.
   - Unit tests for business logic, integration tests for critical paths.
+  - Mention important cases you did not cover.
 
 ### Git
 
@@ -65,27 +110,12 @@ Global rules for opencode.
 - Work: GitLab (merge requests, CI/CD pipelines). Personal: GitHub (pull requests, GitHub Actions).
 - Day-to-day via lazygit; CLI commands or lazygit shortcuts are both fine.
 
-## Decision Records (ADR-style)
+## Decision Records
 
-- Record Architecture Decision Records for decisions that are architectural, add/remove a
-  dependency, or are costly to reverse. Skip trivial/local choices (naming, small refactors).
-- Ask first; write the entry with status `Proposed`, set `Accepted` once I confirm.
-- Location: `docs/<TICKET>-decisions.md` in the project root (e.g. `docs/SHOP-1234-decisions.md`).
-  No ticket (personal projects)? Use a short kebab-case task slug. Create `docs/` if missing.
-- One file per ticket/task; append entries, numbered sequentially within the file.
-- Entry format:
-  ### <TICKET>-<NN>: <Short title>
-  - **Date:** YYYY-MM-DD
-  - **Status:** Proposed | Accepted | Superseded by <ID> | Deprecated
-  - **Context:** problem and constraints
-  - **Decision drivers:** criteria that matter (e.g. performance, compliance, maintainability)
-  - **Options:** considered alternatives with pros/cons
-  - **Decision:** what was chosen and why
-  - **Consequences:** trade-offs, follow-ups, risks
-- Never rewrite accepted entries; only the Status line may change. Supersede with a new entry
-  and link both ways by ID.
-- Before proposing architecture changes, check `docs/*-decisions.md` for prior decisions and
-  respect or explicitly challenge them.
+- Before proposing architecture changes, check `docs/*-decisions.md` for prior decisions; respect them or challenge
+  them explicitly.
+- When a decision is architectural, adds/removes a dependency, or is costly to reverse, load the `adr` skill and
+  follow it.
 
 ## Tech Stack
 

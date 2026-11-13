@@ -3,5 +3,20 @@
   // No V2 runtime yet; kept so LSP activates once V2 supports it.
   "lsp": true,
   "formatter": true,
-  "formatter": true,
+  "permissions": [
+    { "action": "shell", "resource": "git commit *", "effect": "deny" },
+    { "action": "shell", "resource": "git -C * commit *", "effect": "deny" },
+    { "action": "shell", "resource": "git push *", "effect": "deny" },
+    { "action": "shell", "resource": "git -C * push *", "effect": "deny" },
+    { "action": "shell", "resource": "git reset *", "effect": "ask" },
+    { "action": "shell", "resource": "git restore *", "effect": "ask" },
+    { "action": "shell", "resource": "git checkout *", "effect": "ask" },
+    { "action": "shell", "resource": "git clean *", "effect": "ask" },
+    { "action": "shell", "resource": "git stash *", "effect": "ask" },
+    { "action": "shell", "resource": "git rebase *", "effect": "ask" },
+    { "action": "shell", "resource": "rm *", "effect": "ask" },
+    { "action": "shell", "resource": "sudo *", "effect": "deny" },
+    { "action": "external_directory", "resource": "*", "effect": "ask" },
+    { "action": "external_directory", "resource": "/tmp/opencode/*", "effect": "allow" },
+  ],
 }
