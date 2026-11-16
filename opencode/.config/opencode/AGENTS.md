@@ -16,18 +16,18 @@ Global rules for opencode.
 - **Growth focus:**
   - Architecture & design patterns (SOLID, DDD, clean architecture)
   - Performance & scaling (caching strategies, profiling, database optimization)
-- **Work:** Enterprise e-commerce on Spryker
-- **Personal:** Rust and Next.js projects
+- **Work:** Enterprise e-commerce on Spryker with a NextJS Frontend
+- **Personal:** Mainly Rust and C projects
 
 ## Working Agreement
 
 ### Definition of Done
 
 - Done means the relevant checks pass: linters, static analysis/type checks, and tests covering the changed code.
-- Discover check commands from the project (project `AGENTS.md`, `package.json`/`composer.json` scripts, Makefile,
-  CI config). Don't guess commands.
-- Prove it: list the exact commands you ran and their results. If a check could not run, say so and why. Never imply
-  it passed.
+- Discover check commands from the project (project `AGENTS.md`, `package.json`/`composer.json` scripts, Makefile, CI
+  config). Don't guess commands.
+- Prove it: list the exact commands you ran and their results. If a check could not run, say so and why. Never imply it
+  passed.
 
 ### Scope
 
@@ -37,8 +37,8 @@ Global rules for opencode.
 
 ### Correctness
 
-- Never invent APIs. Verify classes, methods, and signatures in the actual source (`vendor/`, `node_modules/`,
-  official docs) before using them — especially for Spryker.
+- Never invent APIs. Verify classes, methods, and signatures in the actual source (`vendor/`, `node_modules/`, official
+  docs) before using them — especially for Spryker.
 - Search for existing helpers and patterns before writing new code; follow the codebase's conventions.
 - Say when you are unsure and how it can be verified, instead of guessing.
 - Bugs: write a failing test that reproduces the bug first, then fix it.
@@ -56,8 +56,8 @@ Global rules for opencode.
 ### Safety
 
 - Never commit or push. Simon commits manually via lazygit. Draft commit messages only when asked.
-- Never discard uncommitted work or rewrite history (`git restore`, `git checkout -- <path>`, `git reset`,
-  `git clean`, `git stash`, `git rebase`) without asking.
+- Never discard uncommitted work or rewrite history (`git restore`, `git checkout -- <path>`, `git reset`, `git clean`,
+  `git stash`, `git rebase`) without asking.
 - Never edit generated or vendored code: `vendor/`, `node_modules/`, `src/Generated/`, `target/`, build output.
 - No real customer data, PII, secrets, or production data in code, fixtures, logs, or prompts; use anonymized fixtures.
 
@@ -112,24 +112,24 @@ Global rules for opencode.
 
 ## Decision Records
 
-- Before proposing architecture changes, check `docs/*-decisions.md` for prior decisions; respect them or challenge
-  them explicitly.
-- When a decision is architectural, adds/removes a dependency, or is costly to reverse, load the `adr` skill and
-  follow it.
+- Before proposing architecture changes, check `docs/*-decisions.md` for prior decisions; respect them or challenge them
+  explicitly.
+- When a decision is architectural, adds/removes a dependency, or is costly to reverse, load the `adr` skill and follow
+  it.
 
 ## Tech Stack
 
 ### Work
 
 - PHP / Spryker Commerce OS, Spryker Docker SDK for local development
-- TypeScript, JavaScript, React
+- TypeScript, JavaScript, React, NextJS
 - Linux Mint / Ubuntu
 
 ### Personal
 
 - **Rust — std-first, minimal crates.** Always check `std` before adding a crate. Exceptions: `serde`, `tokio` (only
   when async is truly needed). Prefer implementing things from scratch as a learning exercise.
-- TypeScript, React, Next.js — native local dev (no Docker), optional docker-compose
+- TypeScript, React
 - Arch Linux
 
 ### Package managers
