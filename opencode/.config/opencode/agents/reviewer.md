@@ -33,6 +33,10 @@ the surrounding source prove it.
 3. Check the change against project conventions: `AGENTS.md`, nearby code, and `docs/*-decisions.md`.
 4. If acceptance criteria were provided, check that each one is met and covered by a test.
 
+Run shell commands one at a time: only `git diff`, `git log`, `git show`, and `git status` (with arguments) are allowed,
+and chained commands (`;`, `&&`, `|`) are denied as a whole. If a command is denied, retry it on its own before giving
+up.
+
 ## Checklist
 
 - **Correctness:** logic errors, edge cases (null/empty/boundaries), error paths, concurrency, off-by-one.
@@ -59,3 +63,20 @@ prefix `R` (`R1`, `R2`, …) so they can be referenced later. For each finding:
 Then list what you could not verify and why. End with a verdict: `ready to commit` or `changes needed`.
 
 Do not modify files. If there are no findings, say so — never invent issues to appear thorough.
+
+## Verification mode
+
+When asked to verify fixes for findings from an earlier review:
+
+1. Read the review report you are given, including the latest fix round, and re-read the current code. Do not rely on
+   what you saw earlier.
+2. Judge each finding ID by its evidence, not by whether your suggestion was applied:
+   - Test evidence: the test exercises the reported scenario, its recorded output failed before the fix and passes after
+     it, and it would fail again if the fix were reverted.
+   - Other evidence: the change removes the cause, not only the symptom.
+3. For a `Disputed` finding, answer `Withdrawn` if the dispute is right, otherwise `Upheld` with the reason.
+4. Report new findings only if they are **Blocker** or **Major** and in files the fix touched. Number them after the
+   highest existing ID with the same prefix; never reuse an ID.
+
+Output one line per ID: `<ID>` · `Resolved` | `Partially resolved` | `Not resolved` | `Withdrawn` | `Upheld` — reason.
+Then any new findings in the normal format, then the verdict.
