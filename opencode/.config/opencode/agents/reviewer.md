@@ -49,9 +49,10 @@ the surrounding source prove it.
 
 ## Output
 
-List findings ordered by severity: **Blocker**, **Major**, **Minor**, **Nit**. For each finding:
+List findings ordered by severity: **Blocker**, **Major**, **Minor**, **Nit**. Number them in that order with the
+prefix `R` (`R1`, `R2`, …) so they can be referenced later. For each finding:
 
-- `file:line` — the issue
+- `R<n>` · severity · `file:line` — the issue
 - why it matters
 - a suggested fix
 
