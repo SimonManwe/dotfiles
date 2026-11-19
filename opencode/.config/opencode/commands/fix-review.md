@@ -5,7 +5,7 @@ agent: build
 
 Fix these review findings: $ARGUMENTS
 
-- The arguments are finding IDs (e.g. `R1 R3`), optionally followed by notes from me on how to fix them.
+- The arguments are finding IDs (e.g. `R1 S2`), optionally followed by notes from me on how to fix them.
 
 Review report for this checkout:
 
@@ -52,10 +52,12 @@ Append to the report file:
 
 ## 5. Verify with the reviewer
 
-- Continue the most recent reviewer session in the report's Reviewers table for the finding's ID prefix (subagent tool
-  with that session ID) and ask it to verify in verification mode.
+- Group the IDs by prefix. For each prefix, continue the most recent reviewer session in the report's Reviewers table
+  for that prefix (subagent tool with that session ID) and ask it to verify in verification mode. Verify all prefixes at
+  once.
 - Resuming only works for reviewers started from this session. If it fails, launch a new `reviewer` with the model from
-  that row, add a row for it to the Reviewers table (same prefix, model, new session ID), and tell me you did.
+  that row, starting its prompt with `Lens: <prefix>` unless the prefix is `R`, add a row for it to the Reviewers table
+  (same prefix, model, new session ID), and tell me you did.
 - Pass only the IDs, the report file path, and the changed files. No reasoning or claims that the fixes work: the
   evidence is in the report.
 - Append its answer verbatim to the report under `### Verification (<reviewer session ID>)`.

@@ -51,12 +51,37 @@ up.
 - **Security & compliance:** injection, authorization, secrets, PII in logs or fixtures.
 - **Performance:** N+1 queries, missing indexes or caching, unbounded collections or loops.
 
+## Lenses
+
+If the prompt starts with `Lens: <letter>`, review only through that lens, use the letter as the ID prefix, and:
+
+- Stay inside the lens. Report a **Blocker** outside it anyway, tagged `out-of-lens`.
+- Give every finding `file:line` and a concrete input or scenario that triggers it. Tag findings you cannot demonstrate
+  this way `speculative`.
+- Report at most 3 **Nit** findings.
+
+What each lens covers:
+
+- **C — Correctness & tests:** logic and boundaries, error paths, invented or outdated APIs, each acceptance criterion
+  covered by a test that fails without the change, weakened or self-mocking tests, silent failures, type holes (`any`,
+  unchecked casts, `unwrap` on input).
+- **S — Security & compliance:** authorization on every new endpoint or action, access to other customers' data (IDOR),
+  injection (SQL, shell, template, XSS), secrets in code or client bundles (`NEXT_PUBLIC_*`), PII in logs, errors,
+  analytics, or fixtures (GDPR), `unsafe` and memory bounds in Rust/C.
+- **P — Performance & scaling (backend and data):** queries or remote calls inside loops (N+1, Yves/Glue → Zed per
+  item), missing indexes for new queries, unbounded reads or collections, cache keys, TTLs and invalidation, hot paths
+  that should read from Storage/Search instead of Zed. State the data volume you assume.
+- **D — Design & conventions:** layering and module boundaries, `docs/*-decisions.md` compliance, contract or schema
+  changes that need an ADR, abstractions with one implementation (YAGNI), duplicated existing helpers, scope creep.
+- **F — Frontend & accessibility:** server/client component split, data-fetching waterfalls, Next.js caching and
+  revalidation, hydration mismatches, bundle size; semantic HTML, keyboard access, focus management, labels, alt text.
+
 ## Output
 
-List findings ordered by severity: **Blocker**, **Major**, **Minor**, **Nit**. Number them in that order with the
-prefix `R` (`R1`, `R2`, …) so they can be referenced later. For each finding:
+List findings ordered by severity: **Blocker**, **Major**, **Minor**, **Nit**. Number them in that order with the prefix
+`R` (`R1`, `R2`, …), or your lens letter in lens mode, so they can be referenced later. For each finding:
 
-- `R<n>` · severity · `file:line` — the issue
+- `<prefix><n>` · severity · `file:line` — the issue
 - why it matters
 - a suggested fix
 
