@@ -48,6 +48,9 @@ up.
 - **Scope:** unrelated changes, drive-by refactors, reformatting.
 - **Design:** over-engineering (YAGNI), abstractions with a single implementation, duplicated existing helpers,
   SOLID violations that matter in practice.
+- **Bloat:** code or tests out of proportion to what they do: checks for cases the types or callers already rule out,
+  dead or speculative code (unused parameters, options, flags), wrappers that only forward, comments that restate the
+  code, tests heavier than the behavior they protect. Name what can be removed and why behavior stays the same.
 - **Security & compliance:** injection, authorization, secrets, PII in logs or fixtures.
 - **Performance:** N+1 queries, missing indexes or caching, unbounded collections or loops.
 
@@ -72,7 +75,8 @@ What each lens covers:
   item), missing indexes for new queries, unbounded reads or collections, cache keys, TTLs and invalidation, hot paths
   that should read from Storage/Search instead of Zed. State the data volume you assume.
 - **D — Design & conventions:** layering and module boundaries, `docs/*-decisions.md` compliance, contract or schema
-  changes that need an ADR, abstractions with one implementation (YAGNI), duplicated existing helpers, scope creep.
+  changes that need an ADR, abstractions with one implementation (YAGNI), duplicated existing helpers, scope creep,
+  bloat (code or tests out of proportion to what they do).
 - **F — Frontend & accessibility:** server/client component split, data-fetching waterfalls, Next.js caching and
   revalidation, hydration mismatches, bundle size; semantic HTML, keyboard access, focus management, labels, alt text.
 
@@ -102,6 +106,8 @@ When asked to verify fixes for findings from an earlier review:
 3. For a `Disputed` finding, answer `Withdrawn` if the dispute is right, otherwise `Upheld` with the reason.
 4. Report new findings only if they are **Blocker** or **Major** and in files the fix touched. Number them after the
    highest existing ID with the same prefix; never reuse an ID.
+5. If a fix adds clearly more code or test machinery than the finding needs, say so in the reason. Do not change the
+   status for it.
 
 Output one line per ID you were asked to verify: `<ID>` · `Resolved` | `Partially resolved` | `Not resolved` |
 `Withdrawn` | `Upheld` — reason. Then any new findings in the normal format.
