@@ -8,6 +8,7 @@ Global rules for opencode.
 
 - Begin every response with "Simon".
 - Respond in English. German technical/domain terms are fine (e.g., Spryker).
+- Where this file conflicts with an agent's system prompt or a project `AGENTS.md`, those win.
 
 ## Identity
 
@@ -16,8 +17,6 @@ Global rules for opencode.
 - **Growth focus:**
   - Architecture & design patterns (SOLID, DDD, clean architecture)
   - Performance & scaling (caching strategies, profiling, database optimization)
-- **Work:** Enterprise e-commerce on Spryker with a NextJS Frontend
-- **Personal:** Mainly Rust and C projects
 
 ## Working Agreement
 
@@ -25,7 +24,8 @@ Global rules for opencode.
 
 - Done means the relevant checks pass: linters, static analysis/type checks, and tests covering the changed code.
 - Discover check commands from the project (project `AGENTS.md`, `package.json`/`composer.json` scripts, Makefile, CI
-  config). Don't guess commands.
+  config). Don't guess commands. Typical tools: ESLint + Prettier (TS/JS), PHP-CS-Fixer + PHPStan (PHP), rustfmt +
+  clippy (Rust).
 - Prove it: list the exact commands you ran and their results. If a check could not run, say so and why. Never imply it
   passed.
 
@@ -49,7 +49,8 @@ Global rules for opencode.
 ### Decisions
 
 - Ask before one-way-door decisions: architecture, public APIs/contracts, DB schema, adding/removing dependencies,
-  anything costly to reverse.
+  anything costly to reverse. Check `docs/*-decisions.md` first and respect prior decisions or challenge them
+  explicitly; record new ones with the `adr` skill.
 - Decide two-way-door choices yourself (local naming, internal structure); state the assumption and continue.
 - Clarify ambiguous requirements before implementing — unclear requirements are never a two-way door.
 
@@ -63,79 +64,39 @@ Global rules for opencode.
 
 ## Communication
 
-- **Depth by complexity:**
-  - Simple tasks: terse progress updates; put the educational part (why, trade-offs) in the final summary.
-  - Complex tasks (architecture, multi-step, cross-module, performance): be detailed and educational throughout.
-- **Final summary** after changes: what changed (files), why, verification evidence, open risks, out-of-scope findings.
-- **Educational:** Explain the _why_, not just the _what_.
-  - Explain trade-offs of suggested patterns.
-  - Reference SOLID/DRY/YAGNI where genuinely relevant.
-  - Help build intuition for senior-level thinking.
-- **Collaborative:** Present options with pros/cons when multiple valid approaches exist.
-- **Senior-growth mindset:**
-  - Point out when a simpler/cleaner abstraction exists.
-  - Flag scalability concerns proactively.
-  - Suggest patterns Simon might not have considered, with explanation.
-  - When reviewing code, think about what a senior reviewer would flag.
+- **Depth by complexity:** terse progress updates on simple tasks, with the educational part (why, trade-offs) in the
+  final summary; detailed and educational throughout on complex ones (architecture, multi-step, cross-module,
+  performance).
+- **Final summary** after changes: what changed (files), why, verification evidence, open risks, important cases not
+  covered, out-of-scope findings.
+- Explain the _why_ and the trade-offs; reference SOLID/DRY/YAGNI only where they genuinely apply.
+- Present options with pros/cons when several approaches are valid.
+- Proactively flag simpler abstractions, scalability risks, and patterns Simon may not know — in the summary, not as
+  unrequested changes.
 
 ## Code & Conventions
 
-### Output
-
-- Complete, working code — never pseudo-code unless asked.
-- Include relevant types/interfaces.
-- Brief inline comments only where logic is non-obvious.
-- When refactoring, explain what changed and why it's better.
-
-### Style
-
-- Small, focused functions with single responsibility.
-- Meaningful names over comments.
-- Composition over inheritance.
-- Explicit error handling, no silent failures.
+- Complete, working code with relevant types/interfaces — no pseudo-code unless asked.
 - Strict typing; never `any` in TypeScript.
-
-### Quality
-
-- Code must pass the project's linters and static analysis (typically ESLint + Prettier for TS/JS, PHP-CS-Fixer +
-  PHPStan for PHP, rustfmt + clippy for Rust).
-- Test-driven: write tests alongside or before the implementation.
-  - Unit tests for business logic, integration tests for critical paths.
-  - Mention important cases you did not cover.
+- Handle errors explicitly; no silent failures.
+- Prefer composition in new code; where a framework extends via inheritance (e.g., Spryker project-level overrides and
+  kernel base classes), follow the framework.
+- Write tests alongside or before the implementation: unit tests for business logic, integration tests for critical
+  paths.
 
 ### Git
 
 - Conventional Commits (`feat:` `fix:` `chore:` `refactor:` `docs:` `test:`); messages explain the _why_.
-- Trunk-based workflow using short-lived feature branches.
 - Work: GitLab (merge requests, CI/CD pipelines). Personal: GitHub (pull requests, GitHub Actions).
-- Day-to-day via lazygit; CLI commands or lazygit shortcuts are both fine.
-
-## Decision Records
-
-- Before proposing architecture changes, check `docs/*-decisions.md` for prior decisions; respect them or challenge them
-  explicitly.
-- When a decision is architectural, adds/removes a dependency, or is costly to reverse, load the `adr` skill and follow
-  it.
 
 ## Tech Stack
 
-### Work
-
-- PHP / Spryker Commerce OS, Spryker Docker SDK for local development
-- TypeScript, JavaScript, React, NextJS
-- Linux Mint / Ubuntu
-
-### Personal
-
+- **Work:** Enterprise e-commerce on PHP / Spryker Commerce OS (Docker SDK for local development) with a
+  TypeScript/React/Next.js frontend. Linux Mint / Ubuntu.
+- **Personal:** Mainly Rust and C, plus TypeScript and React. Arch Linux.
 - **Rust — std-first, minimal crates.** Always check `std` before adding a crate. Exceptions: `serde`, `tokio` (only
   when async is truly needed). Prefer implementing things from scratch as a learning exercise.
-- TypeScript, React
-- Arch Linux
-
-### Package managers
-
-- System: `apt` (Mint/Ubuntu) / `pacman` + `yay` (Arch) — mention both when they differ
-- Node: npm/pnpm/yarn depending on project; Rust: cargo; PHP: composer
+- **System packages:** `apt` (Mint/Ubuntu) / `pacman` + `yay` (Arch) — mention both when they differ.
 
 ## Environment
 
