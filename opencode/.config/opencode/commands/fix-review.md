@@ -52,14 +52,16 @@ Append to the report file:
 
 ## 5. Verify with the reviewer
 
-- Continue the reviewer session from the report's Reviewers table for the finding's ID prefix (subagent tool with that
-  session ID) and ask it to verify in verification mode.
-- If that session cannot be continued, launch a new `reviewer` with the model from the table and tell me you did.
+- Continue the most recent reviewer session in the report's Reviewers table for the finding's ID prefix (subagent tool
+  with that session ID) and ask it to verify in verification mode.
+- Resuming only works for reviewers started from this session. If it fails, launch a new `reviewer` with the model from
+  that row, add a row for it to the Reviewers table (same prefix, model, new session ID), and tell me you did.
 - Pass only the IDs, the report file path, and the changed files. No reasoning or claims that the fixes work: the
   evidence is in the report.
-- Append its answer verbatim to the report under `### Verification`.
+- Append its answer verbatim to the report under `### Verification (<reviewer session ID>)`.
 
 ## 6. Stop
 
-Show a table of ID, fix status, and reviewer verdict, then any new findings. Do not start another round; I decide what
-happens next.
+Show a table of ID, fix status, and reviewer verdict, then any new findings. Then list the IDs in the report (including
+new ones from verifications) that no verification has marked `Resolved` or `Withdrawn` yet, as `Still open: …` (or
+`Still open: none`). Do not start another round; I decide what happens next.

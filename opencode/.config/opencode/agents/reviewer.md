@@ -78,5 +78,8 @@ When asked to verify fixes for findings from an earlier review:
 4. Report new findings only if they are **Blocker** or **Major** and in files the fix touched. Number them after the
    highest existing ID with the same prefix; never reuse an ID.
 
-Output one line per ID: `<ID>` · `Resolved` | `Partially resolved` | `Not resolved` | `Withdrawn` | `Upheld` — reason.
-Then any new findings in the normal format, then the verdict.
+Output one line per ID you were asked to verify: `<ID>` · `Resolved` | `Partially resolved` | `Not resolved` |
+`Withdrawn` | `Upheld` — reason. Then any new findings in the normal format.
+
+End with a verdict for the checked IDs only: `verified` if every one is `Resolved` or `Withdrawn` and there are no new
+findings, otherwise `not verified`. Do not judge IDs you were not asked to verify; the normal verdict does not apply.
