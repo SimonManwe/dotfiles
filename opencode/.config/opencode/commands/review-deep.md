@@ -34,8 +34,9 @@ Run a thorough review with one `reviewer` subagent per lens. Scope: $ARGUMENTS
 
 ## 4. Merge the findings
 
-- Duplicates are findings at the same location with the same cause. Show them as one entry under the highest severity
-  and name every ID (`C2 = S1`).
+- Duplicates are findings at the same location with the same cause. Show them as one entry and name every ID
+  (`C2 = S1`). Use the severity of a copy not tagged `out-of-lens`; only if every copy is `out-of-lens`, use the
+  highest. Show the other severities next to it.
 - Never drop, downgrade, or reword a finding. Every ID stays usable with `/fix-review`.
 - Show a table sorted by severity (Blocker, Major, Minor, Nit; findings from several lenses first): IDs, severity,
   `file:line`, the issue line verbatim, lenses.

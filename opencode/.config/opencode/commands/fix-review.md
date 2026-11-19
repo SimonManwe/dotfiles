@@ -66,4 +66,6 @@ Append to the report file:
 
 Show a table of ID, fix status, and reviewer verdict, then any new findings. Then list the IDs in the report (including
 new ones from verifications) that no verification has marked `Resolved` or `Withdrawn` yet, as `Still open: …` (or
-`Still open: none`). Do not start another round; I decide what happens next.
+`Still open: none`). IDs that the report's Summary joins with `=` are one finding: if one of them is `Resolved` or
+`Withdrawn`, list the others as resolved too, shown as `S2 (= C1)`. Do not start another round; I decide what happens
+next.
