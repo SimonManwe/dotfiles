@@ -66,6 +66,9 @@ hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
 hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
 
+local home = os.getenv("HOME")
+hl.env("PATH", home .. "/.cargo/bin:" .. home .. "/.local/bin:/usr/local/bin:/usr/bin")
+
 
 -----------------------
 ----- PERMISSIONS -----
@@ -282,17 +285,17 @@ hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit")) -- dwindle only
 
 -- Move focus with mainMod + arrow keys
-hl.bind(mainMod .. " + left", hl.dsp.focus({ direction = "left" }))
-hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
-hl.bind(mainMod .. " + up", hl.dsp.focus({ direction = "up" }))
-hl.bind(mainMod .. " + down", hl.dsp.focus({ direction = "down" }))
+hl.bind(mainMod .. " + h", hl.dsp.focus({ direction = "left" }))
+hl.bind(mainMod .. " + l", hl.dsp.focus({ direction = "right" }))
+hl.bind(mainMod .. " + k", hl.dsp.focus({ direction = "up" }))
+hl.bind(mainMod .. " + j", hl.dsp.focus({ direction = "down" }))
 hl.bind(mainMod .. " + Z", hl.dsp.window.fullscreen({ mode = "maximized" }))
 
 -- Move around windows mainMod + arrow keys
-hl.bind(secondaryMod .. " + left", hl.dsp.window.move({ direction = "left" }))
-hl.bind(secondaryMod .. " + right", hl.dsp.window.move({ direction = "right" }))
-hl.bind(secondaryMod .. " + up", hl.dsp.window.move({ direction = "up" }))
-hl.bind(secondaryMod .. " + down", hl.dsp.window.move({ direction = "down" }))
+hl.bind(secondaryMod .. " + h", hl.dsp.window.move({ direction = "left" }))
+hl.bind(secondaryMod .. " + l", hl.dsp.window.move({ direction = "right" }))
+hl.bind(secondaryMod .. " + k", hl.dsp.window.move({ direction = "up" }))
+hl.bind(secondaryMod .. " + j", hl.dsp.window.move({ direction = "down" }))
 
 hl.bind(secondaryMod .. " + T", hl.dsp.window.float({ action = "toggle" }))
 
