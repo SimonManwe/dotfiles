@@ -1,0 +1,18 @@
+[metadata]
+name = "ssh-hosts"
+description = "A channel to select hosts from your SSH config"
+requirements = ["awk"]
+
+[source]
+command = "awk 'tolower($1)==\"host\" { for (i=2;i<=NF;i++) { if ($i ~ /^#/) break; if ($i !~ /[*?!]/ && !seen[$i]++) print $i } }' \"$HOME/.ssh/config\""
+
+[preview]
+command = "awk -v h='{}' 'tolower($1)==\"host\" || tolower($1)==\"match\" { found=0; for (i=2;i<=NF;i++) if ($i==h) found=1 } found' \"$HOME/.ssh/config\""
+
+[keybindings]
+enter = "actions:connect"
+
+[actions.connect]
+description = "SSH into the selected host"
+command = "ssh '{}'"
+mode = "execute"
