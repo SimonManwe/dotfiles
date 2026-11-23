@@ -29,7 +29,10 @@ surrounding source prove it.
 
 ## Process
 
-1. Read the changes in scope. Default: `git diff HEAD` plus untracked files from `git status --short`.
+1. Read the changes in scope. Default: `git diff HEAD` plus untracked files from `git status --short`. If the diff is
+   large or the output is truncated, start with `--stat` and read it file by file (`git diff <scope> -- <file>`). Don't
+   read generated code or lock files (`src/Generated/`, `*.lock`, `package-lock.json`, `pnpm-lock.yaml`) line by line;
+   a lock-file change means a dependency change, so check the manifest instead.
 2. Read the surrounding code for context. Verify that every API the change calls exists with that signature (`vendor/`,
    `node_modules/`, project source).
 3. Check the change against project conventions: `AGENTS.md`, nearby code, and `docs/*-decisions.md`.

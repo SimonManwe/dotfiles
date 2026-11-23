@@ -5,7 +5,17 @@ agent: build
 
 Run a thorough review with one `reviewer` subagent per lens. Scope: $ARGUMENTS
 
-- If no scope is given, review all uncommitted changes against HEAD, including untracked files.
+Resolve the scope first:
+
+- None: all uncommitted changes against HEAD, including untracked files. Changed files: the uncommitted changes below.
+- `branch [<base>]`: everything the branch would contain if committed now. Base: `<base>` if given, otherwise the
+  default base below; if it is `none`, stop and ask me. Diff against `git merge-base <base> HEAD`, plus untracked
+  files. Changed files: `git diff --stat <merge base>` plus untracked files.
+- A ref or range (e.g. `main...HEAD`): as given. Changed files: `git diff --stat <scope>`.
+- A path: its uncommitted changes against HEAD, including its untracked files. Changed files:
+  `git diff HEAD --stat -- <path>` plus its untracked files.
+
+Default base: !`base=; for r in origin/HEAD origin/main origin/master origin/develop; do git rev-parse --verify --quiet "$r" >/dev/null && { base=$(git rev-parse --abbrev-ref "$r"); break; }; done; echo "${base:-none}"`
 
 ## 1. Choose the lenses
 
@@ -13,8 +23,8 @@ Run a thorough review with one `reviewer` subagent per lens. Scope: $ARGUMENTS
   conventions).
 - Run `F` (frontend & accessibility) only if frontend files changed. Otherwise state `F skipped: no frontend changes`.
 - Frontend files among the uncommitted changes:
-  !`{ git diff HEAD --name-only; git ls-files --others --exclude-standard; } | grep -E '\.(tsx|jsx|css|scss)$|(^|/)(app|components)/' || echo none`
-- If a scope is given, list its files with `git diff --name-only <scope>` and apply the same pattern instead.
+  !`{ git diff HEAD --name-only; git ls-files --others --exclude-standard; } | grep -E '\.(tsx?|jsx?|css|scss|twig)$|(^|/)(app|components)/' || echo none`
+- With a scope, apply the same pattern to its changed files instead.
 
 ## 2. Choose a model per lens
 
@@ -26,8 +36,8 @@ Run a thorough review with one `reviewer` subagent per lens. Scope: $ARGUMENTS
 
 ## 3. Launch the reviewers
 
-- Launch all lens reviewers at once. Start each prompt with `Lens: <letter>`, then pass the scope, the changed files
-  below, and the task's acceptance criteria if known.
+- Launch all lens reviewers at once. Start each prompt with `Lens: <letter>`, then pass the resolved scope, its changed
+  files, and the task's acceptance criteria if known.
 - Do not pass your own reasoning, justifications, or claims that the code works.
 - Print one line per lens: `Lens <letter>: <model> (session: <id>)`.
 - Wait until every reviewer has finished before you merge. If one fails, say which and why, and merge the others.
@@ -58,7 +68,7 @@ Don't fix anything until I decide.
 - Date: <YYYY-MM-DD HH:MM>
 - Checkout: <path>
 - Branch: <branch> @ <HEAD>
-- Scope: <scope, or "all uncommitted changes">
+- Scope: <resolved scope, or "all uncommitted changes"; for a branch, include the base and merge base>
 - Lenses: <letters that ran, plus "F skipped" if applicable>
 
 ## Reviewers
@@ -80,6 +90,8 @@ Don't fix anything until I decide.
 
 If you cannot write the file, say so; the findings stay in this conversation. End with:
 `Next: /fix-review <IDs> [notes]`.
+
+Uncommitted changes:
 
 !`git status --short`
 

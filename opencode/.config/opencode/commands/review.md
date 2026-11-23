@@ -1,11 +1,21 @@
 ---
-description: Review uncommitted changes (or a given ref) with the reviewer subagent on a different model family
+description: Review uncommitted changes (or a branch, ref, or path) with a reviewer from a different model family
 agent: build
 ---
 
 Launch the `reviewer` subagent to review the changes. Scope: $ARGUMENTS
 
-- If no scope is given, review all uncommitted changes against HEAD, including untracked files.
+Resolve the scope first:
+
+- None: all uncommitted changes against HEAD, including untracked files. Changed files: the uncommitted changes below.
+- `branch [<base>]`: everything the branch would contain if committed now. Base: `<base>` if given, otherwise the
+  default base below; if it is `none`, stop and ask me. Diff against `git merge-base <base> HEAD`, plus untracked
+  files. Changed files: `git diff --stat <merge base>` plus untracked files.
+- A ref or range (e.g. `main...HEAD`): as given. Changed files: `git diff --stat <scope>`.
+- A path: its uncommitted changes against HEAD, including its untracked files. Changed files:
+  `git diff HEAD --stat -- <path>` plus its untracked files.
+
+Default base: !`base=; for r in origin/HEAD origin/main origin/master origin/develop; do git rev-parse --verify --quiet "$r" >/dev/null && { base=$(git rev-parse --abbrev-ref "$r"); break; }; done; echo "${base:-none}"`
 
 Model selection (do not skip):
 
@@ -18,7 +28,7 @@ Model selection (do not skip):
 
 Context for the reviewer:
 
-- Pass the scope, the changed files below, and the task's acceptance criteria if known.
+- Pass the resolved scope, its changed files, and the task's acceptance criteria if known.
 - Do not pass your own reasoning, justifications, or claims that the code works.
 
 Relay the findings unchanged. Don't fix anything until I decide.
@@ -38,7 +48,7 @@ Write it in this format, with the reviewer's output copied verbatim:
 - Date: <YYYY-MM-DD HH:MM>
 - Checkout: <path>
 - Branch: <branch> @ <HEAD>
-- Scope: <scope, or "all uncommitted changes">
+- Scope: <resolved scope, or "all uncommitted changes"; for a branch, include the base and merge base>
 
 ## Reviewers
 
@@ -53,6 +63,8 @@ Write it in this format, with the reviewer's output copied verbatim:
 
 If you cannot write the file, say so; the findings stay in this conversation. End with:
 `Next: /fix-review <IDs> [notes]`.
+
+Uncommitted changes:
 
 !`git status --short`
 
