@@ -25,4 +25,4 @@ command -v starship &> /dev/null && eval "$(starship init zsh)"
 command -v zoxide   &> /dev/null && eval "$(zoxide init zsh)"
 
 # Init Atuin
-command -v atuin    &> /dev/null && eval "$(atuin init zsh --disable-up-arrow)"
+command -v atuin    &> /dev/null && eval "$(atuin init zsh --disable-up-arrow --bind-ai-resume)"
