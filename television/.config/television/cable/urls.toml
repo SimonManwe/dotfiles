@@ -1,0 +1,28 @@
+[metadata]
+name = "urls"
+description = "URLs from the current tmux pane's scrollback, newest first"
+requirements = ["tmux", "xdg-open", "setsid"]
+
+[source]
+command = '''
+tmux capture-pane -p -J -S - \
+  | grep -oE "https?://[^[:space:]\"'<>\`]+" \
+  | sed -E 's/[.,;:!?)]+$//' \
+  | tac | awk '!seen[$0]++'
+'''
+no_sort = true
+frecency = false
+
+[keybindings]
+enter = "actions:open"
+ctrl-y = "actions:copy"
+
+[actions.open]
+description = "Open the selected URL in the default browser"
+command = "setsid -f xdg-open '{}' >/dev/null 2>&1"
+mode = "execute"
+
+[actions.copy]
+description = "Copy the selected URL to the system clipboard (OSC 52 via tmux)"
+command = "tmux set-buffer -w '{}'"
+mode = "execute"
