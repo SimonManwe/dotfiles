@@ -21,6 +21,7 @@ return {
 			nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
 			nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 			nmap("K", vim.lsp.buf.hover, "Hover Documentation")
+			nmap("<leader>li", vim.diagnostic.open_float, "Diagnostic Float")
 			nmap("<leader>lK", vim.lsp.buf.signature_help, "Signature Documentation")
 		end
 
